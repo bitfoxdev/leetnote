@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Math — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../topics.html">Topiclar</a><i>/</i><span>Math</span></div><div class="doc"><article class="article"><span class="eyebrow">Topic</span><h1>Math</h1><p class="sub">Butun sonlar bilan ishlash: bo&#x27;lish, qoldiq, raqamlarni ajratish, teskari aylantirish va murakkablik.</p><div class="prose"><h2 id="s1">Math masalalari nima haqida</h2>
+<p>Bu turdagi masalalarda asosiy ish <strong>sonning o&#x27;zi</strong> bilan bajariladi, string yoki array yordamida emas. Odatda raqamlarni ajratish, sonni qismlarga bo&#x27;lish, bo&#x27;linuvchanlikni tekshirish yoki formula topish kerak bo&#x27;ladi. To&#x27;g&#x27;ri yondashuv bilan ko&#x27;p masala qo&#x27;shimcha xotirasiz (<strong>O(1)</strong>) yechiladi.</p>
+<p>Uchta asosiy amal hamma narsaning asosi:</p>
+<div class="tbl"><table><thead><tr><th>Amal</th><th>Ma&#x27;nosi</th><th>Misol</th></tr></thead><tbody><tr><td><code>x % 10</code></td><td>Oxirgi raqam</td><td><code>1234 % 10 = 4</code></td></tr><tr><td><code>x // 10</code></td><td>Oxirgi raqamni olib tashlash</td><td><code>1234 // 10 = 123</code></td></tr><tr><td><code>x * 10 + d</code></td><td>Oxiriga raqam qo&#x27;shish</td><td><code>123 * 10 + 4 = 1234</code></td></tr></tbody></table></div>
+<h2 id="s2">Bo&#x27;lish va qoldiq</h2>
+<p>Butun sonlarni bo&#x27;lish uchun tillar har xil operator beradi. Qoldiqni <code>%</code> bilan olasiz.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>print(17 // 5)    # 3, butun bo&#x27;lish
+print(17 % 5)     # 2, qoldiq
+print(17 / 5)     # 3.4, float qaytaradi</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>echo intdiv(17, 5);   // 3, butun bo&#x27;lish
+echo 17 % 5;          // 2, qoldiq
+echo 17 / 5;          // 3.4, float qaytaradi</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>fmt.Println(17 / 5)   // 3, int&#x27;lar uchun butun bo&#x27;lish
+fmt.Println(17 % 5)   // 2, qoldiq
+fmt.Println(float64(17) / 5) // 3.4, aniq float kerak bo&#x27;lsa</code></pre></div></section>
+<h2 id="s3">Raqamlarni ajratib olish</h2>
+<p>Sonni raqam-raqam ko&#x27;rib chiqishning standart usuli: oxirgi raqamni <code>% 10</code> bilan olish, so&#x27;ng <code>// 10</code> bilan uni tashlab yuborish, son <code>0</code> bo&#x27;lguncha. Misol uchun raqamlar yig&#x27;indisi:</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>x = 1234
+total = 0
+
+while x &gt; 0:
+    total += x % 10
+    x //= 10
+
+print(total)   # 10</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$x = 1234;
+$total = 0;
+
+while ($x &gt; 0) {
+    $total += $x % 10;
+    $x = intdiv($x, 10);
+}
+
+echo $total;   // 10</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>x := 1234
+total := 0
+
+for x &gt; 0 {
+	total += x % 10
+	x /= 10
+}
+
+fmt.Println(total)   // 10</code></pre></div></section>
+<p>Sikl <strong>raqamlar soni</strong> marta ishlaydi. <code>n</code> sonida raqamlar taxminan <code>log10(n)</code> ta, shuning uchun murakkablik <strong>O(log n)</strong>.</p>
+<h2 id="s4">Sonni teskari aylantirish</h2>
+<p>Oxirgi raqamni olib, uni yangi sonning oxiriga yopishtiramiz: <code>rev = rev * 10 + x % 10</code>.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>x = 1234
+rev = 0
+
+while x &gt; 0:
+    rev = rev * 10 + x % 10
+    x //= 10
+
+print(rev)   # 4321</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$x = 1234;
+$rev = 0;
+
+while ($x &gt; 0) {
+    $rev = $rev * 10 + $x % 10;
+    $x = intdiv($x, 10);
+}
+
+echo $rev;   // 4321</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>x := 1234
+rev := 0
+
+for x &gt; 0 {
+	rev = rev*10 + x%10
+	x /= 10
+}
+
+fmt.Println(rev)   // 4321</code></pre></div></section>
+<p>Palindromni tekshirish kabi masalalarda sonning <strong>faqat yarmini</strong> teskari o&#x27;girish kifoya. Bu ham tezroq, ham overflow xavfidan xoli.</p>
+<h2 id="s5">Manfiy sonlar</h2>
+<p>Manfiy sonlarda bo&#x27;lish va qoldiq tillarda <strong>turlicha</strong> ishlaydi. Bu eng ko&#x27;p xato chiqaradigan joy.</p>
+<div class="tbl"><table><thead><tr><th>Ifoda</th><th>Python</th><th>PHP</th><th>Go</th></tr></thead><tbody><tr><td><code>-7 // 2</code> yoki <code>-7 / 2</code></td><td><code>-4</code> (pastga yaxlitlaydi)</td><td><code>intdiv(-7, 2)</code> = <code>-3</code> (nolga qarab)</td><td><code>-3</code> (nolga qarab)</td></tr><tr><td><code>-7 % 2</code></td><td><code>1</code> (bo&#x27;luvchi ishorasida)</td><td><code>-1</code> (bo&#x27;linuvchi ishorasida)</td><td><code>-1</code> (bo&#x27;linuvchi ishorasida)</td></tr></tbody></table></div>
+<p>Shuning uchun manfiy sonlar bilan ishlaganda avval ishorani alohida ajratib oling (<code>abs</code>), yoki masala shartiga ko&#x27;ra manfiylarni darrov rad eting.</p>
+<h2 id="s6">Overflow</h2>
+<div class="tbl"><table><thead><tr><th>Til</th><th>Butun son</th></tr></thead><tbody><tr><td>Python</td><td>Cheksiz kattalikda, overflow bo&#x27;lmaydi</td></tr><tr><td>PHP</td><td>64-bit <code>int</code>. Chegaradan oshsa avtomatik <code>float</code> ga o&#x27;tadi va aniqlik yo&#x27;qoladi</td></tr><tr><td>Go</td><td><code>int</code> 64-bit (platformaga bog&#x27;liq), chegaradan oshsa <strong>jimgina aylanib ketadi</strong> (wrap)</td></tr></tbody></table></div>
+<p>LeetCode masalalarida ko&#x27;pincha &quot;32-bit signed integer&quot; chegarasi (<code>-2³¹ .. 2³¹ - 1</code>) so&#x27;raladi. Python&#x27;da buni qo&#x27;lda tekshirasiz. Overflowni oldini olishning eng yaxshi yo&#x27;li: kattaligi noma&#x27;lum natijani to&#x27;liq yig&#x27;maslik (masalan, sonning faqat yarmini aylantirish).</p>
+<h2 id="s7">Tez-tez uchraydigan misollar</h2>
+<p><strong>Eng katta umumiy bo&#x27;luvchi (GCD)</strong>, Evklid algoritmi. Murakkablik <strong>O(log min(a, b))</strong>.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+print(gcd(48, 18))   # 6</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>function gcd(int $a, int $b): int {
+    while ($b != 0) {
+        [$a, $b] = [$b, $a % $b];
+    }
+    return $a;
+}
+
+echo gcd(48, 18);   // 6</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>func gcd(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
+
+// gcd(48, 18) == 6</code></pre></div></section>
+<p><strong>Tub son tekshiruvi.</strong> Bo&#x27;luvchilarni <code>√n</code> gacha tekshirish yetarli, chunki har bir bo&#x27;luvchi juftining kichigi <code>√n</code> dan oshmaydi. Murakkablik <strong>O(√n)</strong>.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>def is_prime(n):
+    if n &lt; 2:
+        return False
+    i = 2
+    while i * i &lt;= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>function isPrime(int $n): bool {
+    if ($n &lt; 2) {
+        return false;
+    }
+    for ($i = 2; $i * $i &lt;= $n; $i++) {
+        if ($n % $i == 0) {
+            return false;
+        }
+    }
+    return true;
+}</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>func isPrime(n int) bool {
+	if n &lt; 2 {
+		return false
+	}
+	for i := 2; i*i &lt;= n; i++ {
+		if n%i == 0 {
+			return false
+		}
+	}
+	return true
+}</code></pre></div></section>
+<h2 id="s8">Murakkablik</h2>
+<div class="tbl"><table><thead><tr><th>Amal</th><th>Vaqt</th></tr></thead><tbody><tr><td><code>+ - * // %</code> (oddiy arifmetika)</td><td>O(1)</td></tr><tr><td>Barcha raqamlarni ko&#x27;rib chiqish</td><td>O(log n)</td></tr><tr><td>Evklid algoritmi (GCD)</td><td>O(log min(a, b))</td></tr><tr><td>Tub son tekshiruvi</td><td>O(√n)</td></tr><tr><td>Qo&#x27;shimcha xotira (raqamlar bilan ishlaganda)</td><td>O(1)</td></tr></tbody></table></div>
+<p>Bu yerda <code>n</code> sonning <strong>qiymati</strong>, uning raqamlar soni emas. Raqamlar soni <code>d</code> bilan belgilansa, raqamlarni ko&#x27;rib chiqish O(d) bo&#x27;ladi.</p>
+<h2 id="s9">Ko&#x27;p uchraydigan xatolar</h2>
+<ul><li><strong>Sonni stringga aylantirish.</strong> <code>str(x)</code> ishlaydi, lekin O(log n) qo&#x27;shimcha xotira ketadi. Masala &quot;stringsiz&quot; yechishni so&#x27;rasa ruxsat etilmaydi.</li><li><strong>Python&#x27;da <code>/</code> va <code>//</code> aralashishi.</strong> <code>/</code> doim <code>float</code> beradi va katta sonlarda aniqlik yo&#x27;qoladi. Butun bo&#x27;lish uchun <code>//</code>.</li><li><strong>PHP&#x27;da <code>/</code> o&#x27;rniga <code>intdiv</code>.</strong> <code>7 / 2</code> PHP&#x27;da <code>3.5</code> beradi. Butun natija uchun <code>intdiv(7, 2)</code>.</li><li><strong>Manfiy sonlar.</strong> <code>%</code> va bo&#x27;lish natijasi tilga qarab farq qiladi (yuqoridagi jadval).</li><li><strong>Oxiri nol bilan tugaydigan sonlar.</strong> Sonni teskari aylantirganda bosh nollar yo&#x27;qoladi: <code>120</code> → <code>21</code>. Palindrom kabi masalalarda bu alohida holat sifatida tekshiriladi.</li><li><strong><code>0</code> ni unutish.</strong> <code>x % 10 == 0</code> sharti <code>0</code> uchun ham to&#x27;g&#x27;ri keladi, lekin <code>0</code> o&#x27;zi palindrom.</li></ul></div><h2>Shu topicdagi masalalar</h2><div class="list"><a class="row" href="../problems/0009-palindrome-number.html"><span class="n">0009</span><span class="t">Palindrome Number</span><span></span><span class="badge Easy">Easy</span></a></div></article><aside class="toc"><span class="label">Mundarija</span><a href="#s1">Math masalalari nima haqida</a><a href="#s2">Bo&#x27;lish va qoldiq</a><a href="#s3">Raqamlarni ajratib olish</a><a href="#s4">Sonni teskari aylantirish</a><a href="#s5">Manfiy sonlar</a><a href="#s6">Overflow</a><a href="#s7">Tez-tez uchraydigan misollar</a><a href="#s8">Murakkablik</a><a href="#s9">Ko&#x27;p uchraydigan xatolar</a></aside></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

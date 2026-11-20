@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trie — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../topics.html">Topiclar</a><i>/</i><span>Trie</span></div><div class="doc"><article class="article"><span class="eyebrow">Topic</span><h1>Trie</h1><p class="sub">Prefiks daraxti. So&#x27;zlarni harfma-harf saqlash, prefiks bo&#x27;yicha O(L) vaqtda tezkor qidirish va avtoto&#x27;ldirish (autocomplete) tuzilmasi.</p><div class="prose"><h2 id="s1">Trie nima</h2>
+<p><strong>Trie</strong> (inglizcha *re<strong>trie</strong>val* — &quot;qidirib topish&quot; so&#x27;zidan olingan, ko&#x27;pincha &quot;tray&quot; deb talaffuz qilinadi) — bu matnli ma&#x27;lumotlarni, xususan so&#x27;zlar va ularning prefikslarini saqlash uchun mo&#x27;ljallangan maxsus <strong>daraxtsimon ma&#x27;lumotlar tuzilmasi</strong>.</p>
+<p>Oddiy qidiruv usullarida so&#x27;zni qidirish butun so&#x27;zni solishtirishni talab qilsa, Trie&#x27;da qidiruv harfma-harf daraxt shoxlari bo&#x27;ylab tushish orqali amalga oshiriladi.</p>
+<pre><code>       (ROOT)
+       /    \
+      c      d
+     / \      \
+    a   o      o
+   /     \      \
+  t*      g*     g*
+(cat)   (dog)  (dog)</code></pre>
+<blockquote>Yuqoridagi daraxtda <code>cat</code> va <code>dog</code> so&#x27;zlari saqlangan. Yulduzcha (<code>*</code>) so&#x27;z shu tugunda tugaganini (<code>is_end = True</code>) bildiradi.</blockquote>
+<h2 id="s2">Qanday tuzilgan</h2>
+<p>Har bir Trie tuguni (node) odatda ikkita asosiy ma&#x27;lumotni saqlaydi: 1. <code>children</code> — keyingi harflarga olib boruvchi bolalar ro&#x27;yxati (hash map / dictionary yoki 26 ta harflik massiv). 2. <code>is_end</code> — aynan shu tugunda biror so&#x27;z to&#x27;liq tugaganmi-yo&#x27;qligini ko&#x27;rsatuvchi mantiqiy qiymat (<code>True</code>/<code>False</code>).</p>
+<h2 id="s3">Amallar va murakkablik</h2>
+<p><code>L</code> — kiritilayotgan yoki qidirilayotgan so&#x27;zning uzunligi. <code>N</code> — lug&#x27;atdagi so&#x27;zlar soni. <code>Σ</code> (Sigma) — alifbodagi belgilar soni (masalan, ingliz tili kichik harflari uchun 26).</p>
+<div class="tbl"><table><thead><tr><th>Amal</th><th>Vaqt</th><th>Xotira</th><th>Izoh</th></tr></thead><tbody><tr><td>So&#x27;z qo&#x27;shish (Insert)</td><td>O(L)</td><td>O(L)</td><td>Harfma-harf shoxlar bo&#x27;ylab tushiladi</td></tr><tr><td>So&#x27;zni qidirish (Search)</td><td>O(L)</td><td>O(1)</td><td>So&#x27;z oxiri tuguniga yetib <code>is_end</code> tekshiriladi</td></tr><tr><td>Prefiksni tekshirish (StartsWith)</td><td>O(L)</td><td>O(1)</td><td>Prefiks tuguniga yetib borilsa kifoya</td></tr><tr><td>Eng uzun umumiy prefiks (LCP)</td><td>O(S)</td><td>O(S)</td><td>Yagona shoxli zanjir bo&#x27;ylab yuriladi</td></tr><tr><td>Umumiy xotira hajmi</td><td>—</td><td>O(N · L · Σ)</td><td>Barcha tugunlar va bolalar havolalari</td></tr></tbody></table></div>
+<h2 id="s4">Tugun (Node) yaratish</h2>
+<p>Trie tugunining har bir dasturlash tilidagi ko&#x27;rinishi:</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>class TrieNode:
+    def __init__(self):
+        self.children = {}  # harf -&gt; TrieNode
+        self.is_end = False</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>class TrieNode {
+    public $children = [];
+    public $isEnd = false;
+}</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>type TrieNode struct {
+	children map[rune]*TrieNode
+	isEnd    bool
+}
+
+func NewTrieNode() *TrieNode {
+	return &amp;TrieNode{children: make(map[rune]*TrieNode)}
+}</code></pre></div></section>
+<h2 id="s5">Insert: So&#x27;z qo&#x27;shish</h2>
+<p>Ildizdan boshlab har bir harf tekshiriladi. Agar harf mavjud bo&#x27;lmasa, yangi tugun yaratiladi. So&#x27;z tugagach, oxirgi tugunning <code>is_end</code> belgisi <code>True</code> qilinadi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>def insert(root: TrieNode, word: str) -&gt; None:
+    curr = root
+    for ch in word:
+        if ch not in curr.children:
+            curr.children[ch] = TrieNode()
+        curr = curr.children[ch]
+    curr.is_end = True</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>function insert($root, $word) {
+    $curr = $root;
+    for ($i = 0; $i &lt; strlen($word); $i++) {
+        $ch = $word[$i];
+        if (!isset($curr-&gt;children[$ch])) {
+            $curr-&gt;children[$ch] = new TrieNode();
+        }
+        $curr = $curr-&gt;children[$ch];
+    }
+    $curr-&gt;isEnd = true;
+}</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>func (t *TrieNode) Insert(word string) {
+	curr := t
+	for _, ch := range word {
+		if _, ok := curr.children[ch]; !ok {
+			curr.children[ch] = NewTrieNode()
+		}
+		curr = curr.children[ch]
+	}
+	curr.isEnd = true
+}</code></pre></div></section>
+<h2 id="s6">Search va StartsWith (Prefiks qidirish)</h2>
+<p>So&#x27;zni to&#x27;liq qidirish (<code>Search</code>) bilan prefiks qidirish (<code>StartsWith</code>) o&#x27;rtasidagi yagona farq: <code>Search</code> da so&#x27;z oxiridagi tugun <code>is_end == True</code> bo&#x27;lishi shart, <code>StartsWith</code> da esa harflar zanjiri mavjud bo&#x27;lsa yetarli.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>def search(root: TrieNode, word: str) -&gt; bool:
+    curr = root
+    for ch in word:
+        if ch not in curr.children:
+            return False
+        curr = curr.children[ch]
+    return curr.is_end
+
+def starts_with(root: TrieNode, prefix: str) -&gt; bool:
+    curr = root
+    for ch in prefix:
+        if ch not in curr.children:
+            return False
+        curr = curr.children[ch]
+    return True</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>function search($root, $word) {
+    $curr = $root;
+    for ($i = 0; $i &lt; strlen($word); $i++) {
+        $ch = $word[$i];
+        if (!isset($curr-&gt;children[$ch])) return false;
+        $curr = $curr-&gt;children[$ch];
+    }
+    return $curr-&gt;isEnd;
+}
+
+function startsWith($root, $prefix) {
+    $curr = $root;
+    for ($i = 0; $i &lt; strlen($prefix); $i++) {
+        $ch = $prefix[$i];
+        if (!isset($curr-&gt;children[$ch])) return false;
+        $curr = $curr-&gt;children[$ch];
+    }
+    return true;
+}</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>func (t *TrieNode) Search(word string) bool {
+	curr := t
+	for _, ch := range word {
+		if next, ok := curr.children[ch]; ok {
+			curr = next
+		} else {
+			return false
+		}
+	}
+	return curr.isEnd
+}
+
+func (t *TrieNode) StartsWith(prefix string) bool {
+	curr := t
+	for _, ch := range prefix {
+		if next, ok := curr.children[ch]; ok {
+			curr = next
+		} else {
+			return false
+		}
+	}
+	return true
+}</code></pre></div></section>
+<h2 id="s7">Longest Common Prefix masalasida qo&#x27;llash</h2>
+<p>Trie yordamida barcha so&#x27;zlar daraxtga joylashtirilganda, umumiy prefiks <strong>ildizdan boshlab faqat bitta bolasi bor va so&#x27;z tugamagan</strong> tugunlar yo&#x27;lidir:</p>
+<p>1. Ildizdan harakatni boshlaymiz. 2. Agar joriy tugunning <code>len(children) == 1</code> bo&#x27;lsa va u yerda biror so&#x27;z tugamagan bo&#x27;lsa (<code>not is_end</code>), o&#x27;sha yagona bolaga o&#x27;tamiz va harfni yig&#x27;amiz. 3. Agar bolalar soni 1 dan ko&#x27;p bo&#x27;lsa (shoxlanish yuz bersa) yoki so&#x27;z tugasa, qidiruv to&#x27;xtaydi.</p>
+<h2 id="s8">Qachon ishlatiladi</h2>
+<ul><li><strong>Avtoto&#x27;ldirish (Autocomplete):</strong> Foydalanuvchi biror prefiks kiritganda, unga mos barcha so&#x27;zlarni bir zumda topish (qidiruv tizimlari, IDE lar).</li><li><strong>Lug&#x27;at va imloni tekshirish (Spell Check):</strong> So&#x27;zning lug&#x27;atda bor-yo&#x27;qligini juda tez $O(L)$ vaqtda tekshirish.</li><li><strong>Eng uzun umumiy prefiks (Longest Common Prefix):</strong> Bir guruh matnlarning boshlang&#x27;ich bir xil qismini topish.</li><li><strong>IP routing:</strong> Tarmoq protokollarida eng uzun prefiks mosligi (Longest Prefix Match) orqali paketlarni yo&#x27;naltirish.</li></ul></div><h2>Shu topicdagi masalalar</h2><div class="list"><a class="row" href="../problems/0014-longest-common-prefix.html"><span class="n">0014</span><span class="t">Longest Common Prefix</span><span></span><span class="badge Easy">Easy</span></a></div></article><aside class="toc"><span class="label">Mundarija</span><a href="#s1">Trie nima</a><a href="#s2">Qanday tuzilgan</a><a href="#s3">Amallar va murakkablik</a><a href="#s4">Tugun (Node) yaratish</a><a href="#s5">Insert: So&#x27;z qo&#x27;shish</a><a href="#s6">Search va StartsWith (Prefiks qidirish)</a><a href="#s7">Longest Common Prefix masalasida qo&#x27;llash</a><a href="#s8">Qachon ishlatiladi</a></aside></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

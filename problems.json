@@ -1,0 +1,144 @@
+[
+  {
+    "id": 1,
+    "slug": "two-sum",
+    "title": "Two Sum",
+    "difficulty": "Easy",
+    "topics": [
+      "array",
+      "hash-map"
+    ],
+    "url": "https://leetcode.com/problems/two-sum/",
+    "notes": "Har bir `x` uchun `target - x` oldin uchraganmi, hash map'dan tekshiramiz.",
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  {
+    "id": 9,
+    "slug": "palindrome-number",
+    "title": "Palindrome Number",
+    "difficulty": "Easy",
+    "topics": [
+      "math"
+    ],
+    "url": "https://leetcode.com/problems/palindrome-number/",
+    "notes": "Sonni stringga aylantirmaymiz. Faqat **yarmini** teskari o'giramiz: `x` kichrayib, `reversed_half` o'sib borib, o'rtada uchrashadi. Shunda butun sonni teskari aylantirishdagi overflow xavfi ham yo'qoladi. Toq xonali sonda o'rtadagi raqam `reversed_half // 10` bilan chetlab o'tiladi.",
+    "time": "O(log n)",
+    "space": "O(1)"
+  },
+  {
+    "id": 13,
+    "slug": "roman-to-integer",
+    "title": "Roman to Integer",
+    "difficulty": "Easy",
+    "topics": [
+      "string",
+      "hash-map"
+    ],
+    "url": "https://leetcode.com/problems/roman-to-integer/",
+    "notes": "Har bir belgining qiymatini hash map'dan olamiz. Agar belgi o'ngdagi belgidan **kichik** bo'lsa (`IV`, `IX`, `XC`), u ayiriladi, aks holda qo'shiladi. Satr chapdan o'ngga bir marta aylanib chiqiladi. Map'da atigi 7 ta kalit bor, shuning uchun xotira doimiy.",
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  {
+    "id": 14,
+    "slug": "longest-common-prefix",
+    "title": "Longest Common Prefix",
+    "difficulty": "Easy",
+    "topics": [
+      "array",
+      "string",
+      "trie"
+    ],
+    "url": "https://leetcode.com/problems/longest-common-prefix/",
+    "notes": "**S nima va nega O(S)?**\n`S` — massivdagi barcha so'zlar belgilarining umumiy yig'indisi: `S = len(s[0]) + len(s[1]) + ... + len(s[n-1])` yoki `S ≈ N × M` (`N` — so'zlar soni, `M` — o'rtacha so'z uzunligi). Nega `O(N)` emas? Chunki `N` faqat so'zlar soni bo'lib, har bir harfni solishtirish so'z uzunligi `M` ga ham bog'liq. Eng yomon holatda barcha `S` ta belgi tekshirilishi sababli to'liq vaqt murakkabligi **O(S)** deb belgilanadi.\n\n**Yechim usullari sharhi:**\n- **1-usul: Vertikal taqqoslash (Vertical Scanning)** — `O(S)` vaqt, `O(1)` xotira. Ustunma-ustun tekshirish. Amalda eng tezkor, chunki prefiksga kirmaydigan birinchi harfdayoq to'xtaydi.\n- **2-usul: Gorizontal taqqoslash (Horizontal Scanning)** — `O(S)` vaqt, `O(1)` xotira. Birinchi so'zni asos qilib, qolgan so'zlarga to'g'ri kelguncha oxiridan qisqartirib boradi.\n- **3-usul: Saralash (Sorting)** — `O(N log N · M)` vaqt, `O(1)` xotira. Alifbo tartibida saralab, faqat birinchi va oxirgi so'zni solishtirish yetarli.\n- **4-usul: Bo'lib ol va hukmronlik qil (Divide and Conquer)** — `O(S)` vaqt, `O(M log N)` xotira. Massiv ikkiga bo'linib, qismlar prefiksi rekursiv birlashtiriladi.\n- **5-usul: Ikkilik qidiruv (Binary Search)** — `O(S log M)` vaqt, `O(1)` xotira. Prefiks uzunligi bo'yicha ikkilik qidiruv olib boriladi.\n- **6-usul: Trie (Prefiks daraxti)** — `O(S)` vaqt, `O(S)` xotira. Barcha so'zlardan daraxt qurilib, bitta shoxli tugunlar zanjiri olinadi.\n- **Bonus: Pythonic zip & min/max** — `O(S)` vaqt, `O(1)` xotira. `zip(*strs)` yoki `min()` va `max()` yordamida eng sodda va toza yechimlar.",
+    "time": "O(S)",
+    "space": "O(1)",
+    "methods": [
+      {
+        "id": "vertical",
+        "name": "1-usul: Vertikal taqqoslash",
+        "short": "Vertikal",
+        "tag": "Tavsiya",
+        "time": "O(S)",
+        "space": "O(1)",
+        "desc": "Birinchi so'zning har bir harfi bo'yicha ustunma-ustun solishtiriladi. Birinchi nomuvofiqlikdayoq yoki biror so'z tugaganda qidiruv to'xtaydi — amalda eng tezkor usul.",
+        "code": {
+          "python": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n\n        for i in range(len(strs[0])):\n            char = strs[0][i]\n            for j in range(1, len(strs)):\n                if i == len(strs[j]) or strs[j][i] != char:\n                    return strs[0][:i]\n\n        return strs[0]",
+          "php": "class Solution {\n    function longestCommonPrefix($strs) {\n        if (empty($strs)) return \"\";\n        for ($i = 0; $i < strlen($strs[0]); $i++) {\n            $char = $strs[0][$i];\n            for ($j = 1; $j < count($strs); $j++) {\n                if ($i === strlen($strs[$j]) || $strs[$j][$i] !== $char) {\n                    return substr($strs[0], 0, $i);\n                }\n            }\n        }\n        return $strs[0];\n    }\n}",
+          "go": "func longestCommonPrefix(strs []string) string {\n\tif len(strs) == 0 {\n\t\treturn \"\"\n\t}\n\tfor i := 0; i < len(strs[0]); i++ {\n\t\tchar := strs[0][i]\n\t\tfor j := 1; j < len(strs); j++ {\n\t\tif i == len(strs[j]) || strs[j][i] != char {\n\t\t\t\treturn strs[0][:i]\n\t\t\t}\n\t\t}\n\t}\n\treturn strs[0]\n}"
+        }
+      },
+      {
+        "id": "horizontal",
+        "name": "2-usul: Gorizontal taqqoslash",
+        "short": "Gorizontal",
+        "time": "O(S)",
+        "space": "O(1)",
+        "desc": "Birinchi so'zni asosiy prefiks deb olib, har bir keyingi so'z bilan qiyoslaymiz. So'z shu prefiks bilan boshlanmaguncha, prefiks oxiridan 1 tadan harf qisqartirib boriladi.",
+        "code": {
+          "python": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n\n        prefix = strs[0]\n        for i in range(1, len(strs)):\n            while strs[i].find(prefix) != 0:\n                prefix = prefix[:-1]\n                if not prefix:\n                    return \"\"\n\n        return prefix",
+          "php": "class Solution {\n    function longestCommonPrefix($strs) {\n        if (empty($strs)) return \"\";\n        $prefix = $strs[0];\n        for ($i = 1; $i < count($strs); $i++) {\n            while (strpos($strs[$i], $prefix) !== 0) {\n                $prefix = substr($prefix, 0, -1);\n                if ($prefix === \"\") return \"\";\n            }\n        }\n        return $prefix;\n    }\n}",
+          "go": "func longestCommonPrefix(strs []string) string {\n\tif len(strs) == 0 {\n\t\treturn \"\"\n\t}\n\tprefix := strs[0]\n\tfor i := 1; i < len(strs); i++ {\n\t\tfor len(prefix) > 0 && !strings.HasPrefix(strs[i], prefix) {\n\t\t\tprefix = prefix[:len(prefix)-1]\n\t\t}\n\t\tif prefix == \"\" {\n\t\t\treturn \"\"\n\t\t}\n\t}\n\treturn prefix\n}"
+        }
+      },
+      {
+        "id": "sorting",
+        "name": "3-usul: Saralash (Sorting)",
+        "short": "Saralash",
+        "time": "O(N log N · M)",
+        "space": "O(1)",
+        "desc": "Massiv alifbo tartibida saralanadi. Leksikografik jihatdan eng birinchi va eng oxirgi so'zlarning umumiy prefiksi barcha so'zlar uchun ham umumiy bo'ladi.",
+        "code": {
+          "python": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n\n        strs.sort()\n        first, last = strs[0], strs[-1]\n        min_len = min(len(first), len(last))\n\n        for i in range(min_len):\n            if first[i] != last[i]:\n                return first[:i]\n\n        return first[:min_len]",
+          "php": "class Solution {\n    function longestCommonPrefix($strs) {\n        if (empty($strs)) return \"\";\n        sort($strs);\n        $first = $strs[0];\n        $last = $strs[count($strs) - 1];\n        $minLen = min(strlen($first), strlen($last));\n\n        for ($i = 0; $i < $minLen; $i++) {\n            if ($first[$i] !== $last[$i]) {\n                return substr($first, 0, $i);\n            }\n        }\n        return substr($first, 0, $minLen);\n    }\n}",
+          "go": "func longestCommonPrefix(strs []string) string {\n\tif len(strs) == 0 {\n\t\treturn \"\"\n\t}\n\tsort.Strings(strs)\n\tfirst, last := strs[0], strs[len(strs)-1]\n\tminLen := len(first)\n\tif len(last) < minLen {\n\t\tminLen = len(last)\n\t}\n\tfor i := 0; i < minLen; i++ {\n\t\tif first[i] != last[i] {\n\t\t\treturn first[:i]\n\t\t}\n\t}\n\treturn first[:minLen]\n}"
+        }
+      },
+      {
+        "id": "divide",
+        "name": "4-usul: Bo'lib ol va hukmronlik qil",
+        "short": "Divide & Conquer",
+        "time": "O(S)",
+        "space": "O(M log N)",
+        "desc": "Massiv teng ikkiga bo'linadi: chap va o'ng qismlarining umumiy prefikslari rekursiv hisoblanadi va oxirida ikkala natijaning umumiy qismi birlashtiriladi.",
+        "code": {
+          "python": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n\n        def common(l_str: str, r_str: str) -> str:\n            m = min(len(l_str), len(r_str))\n            for i in range(m):\n                if l_str[i] != r_str[i]:\n                    return l_str[:i]\n            return l_str[:m]\n\n        def helper(l: int, r: int) -> str:\n            if l == r:\n                return strs[l]\n            mid = (l + r) // 2\n            return common(helper(l, mid), helper(mid + 1, r))\n\n        return helper(0, len(strs) - 1)"
+        }
+      },
+      {
+        "id": "binary",
+        "name": "5-usul: Ikkilik qidiruv (Binary Search)",
+        "short": "Binary Search",
+        "time": "O(S log M)",
+        "space": "O(1)",
+        "desc": "Prefiks uzunligi bo'yicha ikkilik qidiruv. [1, min_len] oralig'ining o'rtasidagi uzunlik olinadi va u barcha so'zlarga prefiks bo'ladimi-yo'qligi tekshiriladi.",
+        "code": {
+          "python": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n\n        min_len = min(len(s) for s in strs)\n        low, high = 1, min_len\n\n        def is_common(length: int) -> bool:\n            prefix = strs[0][:length]\n            return all(s.startswith(prefix) for s in strs[1:])\n\n        while low <= high:\n            mid = (low + high) // 2\n            if is_common(mid):\n                low = mid + 1\n            else:\n                high = mid - 1\n\n        return strs[0][:high]"
+        }
+      },
+      {
+        "id": "trie",
+        "name": "6-usul: Trie (Prefiks daraxti)",
+        "short": "Trie",
+        "time": "O(S)",
+        "space": "O(S)",
+        "desc": "Barcha so'zlardan Trie daraxti yasaladi. Ildizdan boshlab tugunning faqat 1 ta farzandi bo'lsa va u so'z oxiri bo'lmasa, zanjir davom ettiriladi.",
+        "code": {
+          "python": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end = False\n\nclass Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs or \"\" in strs:\n            return \"\"\n\n        root = TrieNode()\n        for s in strs:\n            curr = root\n            for char in s:\n                if char not in curr.children:\n                    curr.children[char] = TrieNode()\n                curr = curr.children[char]\n            curr.is_end = True\n\n        prefix = []\n        curr = root\n        while len(curr.children) == 1 and not curr.is_end:\n            char = next(iter(curr.children))\n            prefix.append(char)\n            curr = curr.children[char]\n\n        return \"\".join(prefix)"
+        }
+      },
+      {
+        "id": "zip",
+        "name": "7-usul: Pythonic zip usuli",
+        "short": "zip(*strs)",
+        "time": "O(S)",
+        "space": "O(1)",
+        "desc": "zip(*strs) yordamida barcha so'zlar harfma-harf ustun ko'rinishida siqiladi. Agar ustundagi barcha belgilar bir xil bo'lsa (len(set)==1), u umumiy prefiksga kiritiladi.",
+        "code": {
+          "python": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n\n        prefix = []\n        for chars in zip(*strs):\n            if len(set(chars)) == 1:\n                prefix.append(chars[0])\n            else:\n                break\n\n        return \"\".join(prefix)"
+        }
+      }
+    ]
+  }
+]

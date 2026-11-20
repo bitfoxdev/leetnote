@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Palindrome Number — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../index.html">Masalalar</a><i>/</i><span>0009</span></div><div class="split"><div class="brief"><div><h1>Palindrome Number</h1><div class="meta"><span class="badge Easy">Easy</span><a class="ext" href="https://leetcode.com/problems/palindrome-number/" target="_blank" rel="noopener">LeetCode<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div><div class="panel-card topics-box"><span class="label">Topics</span><a class="chip" href="../topics/math.html">Math</a></div><div class="meters"><div class="meter lo"><div class="meter-top"><span>Vaqt</span><b>O(log n)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya</span><div class="prose"><p>Sonni stringga aylantirmaymiz. Faqat <strong>yarmini</strong> teskari o&#x27;giramiz: <code>x</code> kichrayib, <code>reversed_half</code> o&#x27;sib borib, o&#x27;rtada uchrashadi. Shunda butun sonni teskari aylantirishdagi overflow xavfi ham yo&#x27;qoladi. Toq xonali sonda o&#x27;rtadagi raqam <code>reversed_half // 10</code> bilan chetlab o&#x27;tiladi.</p></div></div><div class=pager><a class="prev" href="0001-two-sum.html"><small>← Oldingi</small>Two Sum</a><a class="next" href="0013-roman-to-integer.html"><small>Keyingi →</small>Roman to Integer</a></div></div><section class="editor" data-tabs aria-label="Yechim"><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">solution.py</button><button type="button" role="tab" data-lang="php" aria-selected="false">solution.php</button><button type="button" role="tab" data-lang="go" aria-selected="false">solution.go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>class Solution:
+    def isPalindrome(self, x: int) -&gt; bool:
+        if x &lt; 0 or (x % 10 == 0 and x != 0):
+            return False
+
+        reversed_half = 0
+
+        while x &gt; reversed_half:
+            reversed_half = reversed_half * 10 + x % 10
+            x //= 10
+
+        return x == reversed_half or x == reversed_half // 10</code></pre><div class="status"><span>Python</span><span>12 qator · UTF-8</span></div></div><div class="panel" data-lang="php" hidden><pre><code>class Solution {
+
+    /**
+     * @param Integer $x
+     * @return Boolean
+     */
+    function isPalindrome($x) {
+        if ($x &lt; 0 || ($x % 10 == 0 &amp;&amp; $x != 0)) {
+            return false;
+        }
+
+        $reversedHalf = 0;
+
+        while ($x &gt; $reversedHalf) {
+            $reversedHalf = $reversedHalf * 10 + $x % 10;
+            $x = intdiv($x, 10);
+        }
+
+        return $x == $reversedHalf || $x == intdiv($reversedHalf, 10);
+    }
+}</code></pre><div class="status"><span>PHP</span><span>21 qator · UTF-8</span></div></div><div class="panel" data-lang="go" hidden><pre><code>func isPalindrome(x int) bool {
+	if x &lt; 0 || (x%10 == 0 &amp;&amp; x != 0) {
+		return false
+	}
+
+	reversedHalf := 0
+
+	for x &gt; reversedHalf {
+		reversedHalf = reversedHalf*10 + x%10
+		x /= 10
+	}
+
+	return x == reversedHalf || x == reversedHalf/10
+}</code></pre><div class="status"><span>Go</span><span>14 qator · UTF-8</span></div></div></section></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

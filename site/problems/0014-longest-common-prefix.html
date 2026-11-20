@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Longest Common Prefix — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../index.html">Masalalar</a><i>/</i><span>0014</span></div><div class="split"><div class="brief"><div><h1>Longest Common Prefix</h1><div class="meta"><span class="badge Easy">Easy</span><a class="ext" href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" rel="noopener">LeetCode<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div><div class="panel-card topics-box"><span class="label">Topics</span><a class="chip" href="../topics/array.html">Array</a><a class="chip" href="../topics/string.html">String</a><a class="chip" href="../topics/trie.html">Trie</a></div><div class="panel-card methods-box"><span class="label">Usullar (ustiga boring yoki bosing)</span><div class="methods-list" role="tablist" aria-label="Yechim usullari"><button type="button" class="m-item" role="tab" data-m="0" aria-selected="true"><span class="m-num">1</span><span class="m-info"><span class="m-title">1-usul: Vertikal taqqoslash<span class="badge Easy" style="font-size:.65rem;padding:1px 6px;margin-left:6px">Tavsiya</span></span><span class="m-meta">Vaqt: O(S) · Xotira: O(1)</span></span></button><button type="button" class="m-item" role="tab" data-m="1" aria-selected="false"><span class="m-num">2</span><span class="m-info"><span class="m-title">2-usul: Gorizontal taqqoslash</span><span class="m-meta">Vaqt: O(S) · Xotira: O(1)</span></span></button><button type="button" class="m-item" role="tab" data-m="2" aria-selected="false"><span class="m-num">3</span><span class="m-info"><span class="m-title">3-usul: Saralash (Sorting)</span><span class="m-meta">Vaqt: O(N log N · M) · Xotira: O(1)</span></span></button><button type="button" class="m-item" role="tab" data-m="3" aria-selected="false"><span class="m-num">4</span><span class="m-info"><span class="m-title">4-usul: Bo&#x27;lib ol va hukmronlik qil</span><span class="m-meta">Vaqt: O(S) · Xotira: O(M log N)</span></span></button><button type="button" class="m-item" role="tab" data-m="4" aria-selected="false"><span class="m-num">5</span><span class="m-info"><span class="m-title">5-usul: Ikkilik qidiruv (Binary Search)</span><span class="m-meta">Vaqt: O(S log M) · Xotira: O(1)</span></span></button><button type="button" class="m-item" role="tab" data-m="5" aria-selected="false"><span class="m-num">6</span><span class="m-info"><span class="m-title">6-usul: Trie (Prefiks daraxti)</span><span class="m-meta">Vaqt: O(S) · Xotira: O(S)</span></span></button><button type="button" class="m-item" role="tab" data-m="6" aria-selected="false"><span class="m-num">7</span><span class="m-info"><span class="m-title">7-usul: Pythonic zip usuli</span><span class="m-meta">Vaqt: O(S) · Xotira: O(1)</span></span></button></div></div><div class="m-view" data-m="0"><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(S)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 1-usul: Vertikal taqqoslash</span><div class="prose"><p>Birinchi so&#x27;zning har bir harfi bo&#x27;yicha ustunma-ustun solishtiriladi. Birinchi nomuvofiqlikdayoq yoki biror so&#x27;z tugaganda qidiruv to&#x27;xtaydi — amalda eng tezkor usul.</p></div></div></div><div class="m-view" data-m="1" hidden><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(S)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 2-usul: Gorizontal taqqoslash</span><div class="prose"><p>Birinchi so&#x27;zni asosiy prefiks deb olib, har bir keyingi so&#x27;z bilan qiyoslaymiz. So&#x27;z shu prefiks bilan boshlanmaguncha, prefiks oxiridan 1 tadan harf qisqartirib boriladi.</p></div></div></div><div class="m-view" data-m="2" hidden><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(N log N · M)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 3-usul: Saralash (Sorting)</span><div class="prose"><p>Massiv alifbo tartibida saralanadi. Leksikografik jihatdan eng birinchi va eng oxirgi so&#x27;zlarning umumiy prefiksi barcha so&#x27;zlar uchun ham umumiy bo&#x27;ladi.</p></div></div></div><div class="m-view" data-m="3" hidden><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(S)</b></div></div><div class="meter mid"><div class="meter-top"><span>Xotira</span><b>O(M log N)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 4-usul: Bo&#x27;lib ol va hukmronlik qil</span><div class="prose"><p>Massiv teng ikkiga bo&#x27;linadi: chap va o&#x27;ng qismlarining umumiy prefikslari rekursiv hisoblanadi va oxirida ikkala natijaning umumiy qismi birlashtiriladi.</p></div></div></div><div class="m-view" data-m="4" hidden><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(S log M)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 5-usul: Ikkilik qidiruv (Binary Search)</span><div class="prose"><p>Prefiks uzunligi bo&#x27;yicha ikkilik qidiruv. [1, min_len] oralig&#x27;ining o&#x27;rtasidagi uzunlik olinadi va u barcha so&#x27;zlarga prefiks bo&#x27;ladimi-yo&#x27;qligi tekshiriladi.</p></div></div></div><div class="m-view" data-m="5" hidden><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(S)</b></div></div><div class="meter mid"><div class="meter-top"><span>Xotira</span><b>O(S)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 6-usul: Trie (Prefiks daraxti)</span><div class="prose"><p>Barcha so&#x27;zlardan Trie daraxti yasaladi. Ildizdan boshlab tugunning faqat 1 ta farzandi bo&#x27;lsa va u so&#x27;z oxiri bo&#x27;lmasa, zanjir davom ettiriladi.</p></div></div></div><div class="m-view" data-m="6" hidden><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(S)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya: 7-usul: Pythonic zip usuli</span><div class="prose"><p>zip(*strs) yordamida barcha so&#x27;zlar harfma-harf ustun ko&#x27;rinishida siqiladi. Agar ustundagi barcha belgilar bir xil bo&#x27;lsa (len(set)==1), u umumiy prefiksga kiritiladi.</p></div></div></div><div class="panel-card note-box"><span class="label">Izoh: S nima va nega O(S)?</span><div class="prose"><p><strong>S nima va nega O(S)?</strong> <code>S</code> — massivdagi barcha so&#x27;zlar belgilarining umumiy yig&#x27;indisi: <code>S = len(s[0]) + len(s[1]) + ... + len(s[n-1])</code> yoki <code>S ≈ N × M</code> (<code>N</code> — so&#x27;zlar soni, <code>M</code> — o&#x27;rtacha so&#x27;z uzunligi). Nega <code>O(N)</code> emas? Chunki <code>N</code> faqat so&#x27;zlar soni bo&#x27;lib, har bir harfni solishtirish so&#x27;z uzunligi <code>M</code> ga ham bog&#x27;liq. Eng yomon holatda barcha <code>S</code> ta belgi tekshirilishi sababli to&#x27;liq vaqt murakkabligi <strong>O(S)</strong> deb belgilanadi.</p>
+<p><strong>Yechim usullari sharhi:</strong></p>
+<ul><li><strong>1-usul: Vertikal taqqoslash (Vertical Scanning)</strong> — <code>O(S)</code> vaqt, <code>O(1)</code> xotira. Ustunma-ustun tekshirish. Amalda eng tezkor, chunki prefiksga kirmaydigan birinchi harfdayoq to&#x27;xtaydi.</li><li><strong>2-usul: Gorizontal taqqoslash (Horizontal Scanning)</strong> — <code>O(S)</code> vaqt, <code>O(1)</code> xotira. Birinchi so&#x27;zni asos qilib, qolgan so&#x27;zlarga to&#x27;g&#x27;ri kelguncha oxiridan qisqartirib boradi.</li><li><strong>3-usul: Saralash (Sorting)</strong> — <code>O(N log N · M)</code> vaqt, <code>O(1)</code> xotira. Alifbo tartibida saralab, faqat birinchi va oxirgi so&#x27;zni solishtirish yetarli.</li><li><strong>4-usul: Bo&#x27;lib ol va hukmronlik qil (Divide and Conquer)</strong> — <code>O(S)</code> vaqt, <code>O(M log N)</code> xotira. Massiv ikkiga bo&#x27;linib, qismlar prefiksi rekursiv birlashtiriladi.</li><li><strong>5-usul: Ikkilik qidiruv (Binary Search)</strong> — <code>O(S log M)</code> vaqt, <code>O(1)</code> xotira. Prefiks uzunligi bo&#x27;yicha ikkilik qidiruv olib boriladi.</li><li><strong>6-usul: Trie (Prefiks daraxti)</strong> — <code>O(S)</code> vaqt, <code>O(S)</code> xotira. Barcha so&#x27;zlardan daraxt qurilib, bitta shoxli tugunlar zanjiri olinadi.</li><li><strong>Bonus: Pythonic zip &amp; min/max</strong> — <code>O(S)</code> vaqt, <code>O(1)</code> xotira. <code>zip(*strs)</code> yoki <code>min()</code> va <code>max()</code> yordamida eng sodda va toza yechimlar.</li></ul></div></div><div class=pager><a class="prev" href="0013-roman-to-integer.html"><small>← Oldingi</small>Roman to Integer</a></div></div><section class="editor" data-tabs aria-label="Yechim"><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="true">solution.py</button><button type="button" role="tab" data-lang="php" aria-selected="false">solution.php</button><button type="button" role="tab" data-lang="go" aria-selected="false">solution.go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-method="0" data-lang="python"><pre><code>class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs:
+            return &quot;&quot;
+
+        for i in range(len(strs[0])):
+            char = strs[0][i]
+            for j in range(1, len(strs)):
+                if i == len(strs[j]) or strs[j][i] != char:
+                    return strs[0][:i]
+
+        return strs[0]</code></pre><div class="status"><span>Python · 1-usul: Vertikal taqqoslash</span><span>12 qator · UTF-8</span></div></div><div class="panel" data-method="0" data-lang="php" hidden><pre><code>class Solution {
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) return &quot;&quot;;
+        for ($i = 0; $i &lt; strlen($strs[0]); $i++) {
+            $char = $strs[0][$i];
+            for ($j = 1; $j &lt; count($strs); $j++) {
+                if ($i === strlen($strs[$j]) || $strs[$j][$i] !== $char) {
+                    return substr($strs[0], 0, $i);
+                }
+            }
+        }
+        return $strs[0];
+    }
+}</code></pre><div class="status"><span>PHP · 1-usul: Vertikal taqqoslash</span><span>14 qator · UTF-8</span></div></div><div class="panel" data-method="0" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+	for i := 0; i &lt; len(strs[0]); i++ {
+		char := strs[0][i]
+		for j := 1; j &lt; len(strs); j++ {
+		if i == len(strs[j]) || strs[j][i] != char {
+				return strs[0][:i]
+			}
+		}
+	}
+	return strs[0]
+}</code></pre><div class="status"><span>Go · 1-usul: Vertikal taqqoslash</span><span>14 qator · UTF-8</span></div></div><div class="panel" data-method="1" data-lang="python" hidden><pre><code>class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs:
+            return &quot;&quot;
+
+        prefix = strs[0]
+        for i in range(1, len(strs)):
+            while strs[i].find(prefix) != 0:
+                prefix = prefix[:-1]
+                if not prefix:
+                    return &quot;&quot;
+
+        return prefix</code></pre><div class="status"><span>Python · 2-usul: Gorizontal taqqoslash</span><span>13 qator · UTF-8</span></div></div><div class="panel" data-method="1" data-lang="php" hidden><pre><code>class Solution {
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) return &quot;&quot;;
+        $prefix = $strs[0];
+        for ($i = 1; $i &lt; count($strs); $i++) {
+            while (strpos($strs[$i], $prefix) !== 0) {
+                $prefix = substr($prefix, 0, -1);
+                if ($prefix === &quot;&quot;) return &quot;&quot;;
+            }
+        }
+        return $prefix;
+    }
+}</code></pre><div class="status"><span>PHP · 2-usul: Gorizontal taqqoslash</span><span>13 qator · UTF-8</span></div></div><div class="panel" data-method="1" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+	prefix := strs[0]
+	for i := 1; i &lt; len(strs); i++ {
+		for len(prefix) &gt; 0 &amp;&amp; !strings.HasPrefix(strs[i], prefix) {
+			prefix = prefix[:len(prefix)-1]
+		}
+		if prefix == &quot;&quot; {
+			return &quot;&quot;
+		}
+	}
+	return prefix
+}</code></pre><div class="status"><span>Go · 2-usul: Gorizontal taqqoslash</span><span>15 qator · UTF-8</span></div></div><div class="panel" data-method="2" data-lang="python" hidden><pre><code>class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs:
+            return &quot;&quot;
+
+        strs.sort()
+        first, last = strs[0], strs[-1]
+        min_len = min(len(first), len(last))
+
+        for i in range(min_len):
+            if first[i] != last[i]:
+                return first[:i]
+
+        return first[:min_len]</code></pre><div class="status"><span>Python · 3-usul: Saralash (Sorting)</span><span>14 qator · UTF-8</span></div></div><div class="panel" data-method="2" data-lang="php" hidden><pre><code>class Solution {
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) return &quot;&quot;;
+        sort($strs);
+        $first = $strs[0];
+        $last = $strs[count($strs) - 1];
+        $minLen = min(strlen($first), strlen($last));
+
+        for ($i = 0; $i &lt; $minLen; $i++) {
+            if ($first[$i] !== $last[$i]) {
+                return substr($first, 0, $i);
+            }
+        }
+        return substr($first, 0, $minLen);
+    }
+}</code></pre><div class="status"><span>PHP · 3-usul: Saralash (Sorting)</span><span>16 qator · UTF-8</span></div></div><div class="panel" data-method="2" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+	sort.Strings(strs)
+	first, last := strs[0], strs[len(strs)-1]
+	minLen := len(first)
+	if len(last) &lt; minLen {
+		minLen = len(last)
+	}
+	for i := 0; i &lt; minLen; i++ {
+		if first[i] != last[i] {
+			return first[:i]
+		}
+	}
+	return first[:minLen]
+}</code></pre><div class="status"><span>Go · 3-usul: Saralash (Sorting)</span><span>17 qator · UTF-8</span></div></div><div class="panel" data-method="3" data-lang="python" hidden><pre><code>class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs:
+            return &quot;&quot;
+
+        def common(l_str: str, r_str: str) -&gt; str:
+            m = min(len(l_str), len(r_str))
+            for i in range(m):
+                if l_str[i] != r_str[i]:
+                    return l_str[:i]
+            return l_str[:m]
+
+        def helper(l: int, r: int) -&gt; str:
+            if l == r:
+                return strs[l]
+            mid = (l + r) // 2
+            return common(helper(l, mid), helper(mid + 1, r))
+
+        return helper(0, len(strs) - 1)</code></pre><div class="status"><span>Python · 4-usul: Bo&#x27;lib ol va hukmronlik qil</span><span>19 qator · UTF-8</span></div></div><div class="panel" data-method="3" data-lang="php" hidden><pre><code>class Solution {
+
+    /**
+     * @param String[] $strs
+     * @return String
+     */
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) {
+            return &quot;&quot;;
+        }
+
+        $first = $strs[0];
+        $len = strlen($first);
+
+        for ($i = 0; $i &lt; $len; $i++) {
+            $char = $first[$i];
+            for ($j = 1; $j &lt; count($strs); $j++) {
+                if ($i === strlen($strs[$j]) || $strs[$j][$i] !== $char) {
+                    return substr($first, 0, $i);
+                }
+            }
+        }
+
+        return $first;
+    }
+}</code></pre><div class="status"><span>PHP · 4-usul: Bo&#x27;lib ol va hukmronlik qil</span><span>26 qator · UTF-8</span></div></div><div class="panel" data-method="3" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+
+	for i := 0; i &lt; len(strs[0]); i++ {
+		char := strs[0][i]
+		for j := 1; j &lt; len(strs); j++ {
+			if i == len(strs[j]) || strs[j][i] != char {
+				return strs[0][:i]
+			}
+		}
+	}
+
+	return strs[0]
+}</code></pre><div class="status"><span>Go · 4-usul: Bo&#x27;lib ol va hukmronlik qil</span><span>16 qator · UTF-8</span></div></div><div class="panel" data-method="4" data-lang="python" hidden><pre><code>class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs:
+            return &quot;&quot;
+
+        min_len = min(len(s) for s in strs)
+        low, high = 1, min_len
+
+        def is_common(length: int) -&gt; bool:
+            prefix = strs[0][:length]
+            return all(s.startswith(prefix) for s in strs[1:])
+
+        while low &lt;= high:
+            mid = (low + high) // 2
+            if is_common(mid):
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        return strs[0][:high]</code></pre><div class="status"><span>Python · 5-usul: Ikkilik qidiruv (Binary Search)</span><span>20 qator · UTF-8</span></div></div><div class="panel" data-method="4" data-lang="php" hidden><pre><code>class Solution {
+
+    /**
+     * @param String[] $strs
+     * @return String
+     */
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) {
+            return &quot;&quot;;
+        }
+
+        $first = $strs[0];
+        $len = strlen($first);
+
+        for ($i = 0; $i &lt; $len; $i++) {
+            $char = $first[$i];
+            for ($j = 1; $j &lt; count($strs); $j++) {
+                if ($i === strlen($strs[$j]) || $strs[$j][$i] !== $char) {
+                    return substr($first, 0, $i);
+                }
+            }
+        }
+
+        return $first;
+    }
+}</code></pre><div class="status"><span>PHP · 5-usul: Ikkilik qidiruv (Binary Search)</span><span>26 qator · UTF-8</span></div></div><div class="panel" data-method="4" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+
+	for i := 0; i &lt; len(strs[0]); i++ {
+		char := strs[0][i]
+		for j := 1; j &lt; len(strs); j++ {
+			if i == len(strs[j]) || strs[j][i] != char {
+				return strs[0][:i]
+			}
+		}
+	}
+
+	return strs[0]
+}</code></pre><div class="status"><span>Go · 5-usul: Ikkilik qidiruv (Binary Search)</span><span>16 qator · UTF-8</span></div></div><div class="panel" data-method="5" data-lang="python" hidden><pre><code>class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs or &quot;&quot; in strs:
+            return &quot;&quot;
+
+        root = TrieNode()
+        for s in strs:
+            curr = root
+            for char in s:
+                if char not in curr.children:
+                    curr.children[char] = TrieNode()
+                curr = curr.children[char]
+            curr.is_end = True
+
+        prefix = []
+        curr = root
+        while len(curr.children) == 1 and not curr.is_end:
+            char = next(iter(curr.children))
+            prefix.append(char)
+            curr = curr.children[char]
+
+        return &quot;&quot;.join(prefix)</code></pre><div class="status"><span>Python · 6-usul: Trie (Prefiks daraxti)</span><span>27 qator · UTF-8</span></div></div><div class="panel" data-method="5" data-lang="php" hidden><pre><code>class Solution {
+
+    /**
+     * @param String[] $strs
+     * @return String
+     */
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) {
+            return &quot;&quot;;
+        }
+
+        $first = $strs[0];
+        $len = strlen($first);
+
+        for ($i = 0; $i &lt; $len; $i++) {
+            $char = $first[$i];
+            for ($j = 1; $j &lt; count($strs); $j++) {
+                if ($i === strlen($strs[$j]) || $strs[$j][$i] !== $char) {
+                    return substr($first, 0, $i);
+                }
+            }
+        }
+
+        return $first;
+    }
+}</code></pre><div class="status"><span>PHP · 6-usul: Trie (Prefiks daraxti)</span><span>26 qator · UTF-8</span></div></div><div class="panel" data-method="5" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+
+	for i := 0; i &lt; len(strs[0]); i++ {
+		char := strs[0][i]
+		for j := 1; j &lt; len(strs); j++ {
+			if i == len(strs[j]) || strs[j][i] != char {
+				return strs[0][:i]
+			}
+		}
+	}
+
+	return strs[0]
+}</code></pre><div class="status"><span>Go · 6-usul: Trie (Prefiks daraxti)</span><span>16 qator · UTF-8</span></div></div><div class="panel" data-method="6" data-lang="python" hidden><pre><code>class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -&gt; str:
+        if not strs:
+            return &quot;&quot;
+
+        prefix = []
+        for chars in zip(*strs):
+            if len(set(chars)) == 1:
+                prefix.append(chars[0])
+            else:
+                break
+
+        return &quot;&quot;.join(prefix)</code></pre><div class="status"><span>Python · 7-usul: Pythonic zip usuli</span><span>13 qator · UTF-8</span></div></div><div class="panel" data-method="6" data-lang="php" hidden><pre><code>class Solution {
+
+    /**
+     * @param String[] $strs
+     * @return String
+     */
+    function longestCommonPrefix($strs) {
+        if (empty($strs)) {
+            return &quot;&quot;;
+        }
+
+        $first = $strs[0];
+        $len = strlen($first);
+
+        for ($i = 0; $i &lt; $len; $i++) {
+            $char = $first[$i];
+            for ($j = 1; $j &lt; count($strs); $j++) {
+                if ($i === strlen($strs[$j]) || $strs[$j][$i] !== $char) {
+                    return substr($first, 0, $i);
+                }
+            }
+        }
+
+        return $first;
+    }
+}</code></pre><div class="status"><span>PHP · 7-usul: Pythonic zip usuli</span><span>26 qator · UTF-8</span></div></div><div class="panel" data-method="6" data-lang="go" hidden><pre><code>func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return &quot;&quot;
+	}
+
+	for i := 0; i &lt; len(strs[0]); i++ {
+		char := strs[0][i]
+		for j := 1; j &lt; len(strs); j++ {
+			if i == len(strs[j]) || strs[j][i] != char {
+				return strs[0][:i]
+			}
+		}
+	}
+
+	return strs[0]
+}</code></pre><div class="status"><span>Go · 7-usul: Pythonic zip usuli</span><span>16 qator · UTF-8</span></div></div></section></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

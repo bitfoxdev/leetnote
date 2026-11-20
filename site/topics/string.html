@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>String — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../topics.html">Topiclar</a><i>/</i><span>String</span></div><div class="doc"><article class="article"><span class="eyebrow">Topic</span><h1>String</h1><p class="sub">Belgilar ketma-ketligi. Indeks bilan o&#x27;qish, aylanib chiqish, qurish, qidirish va tillar o&#x27;rtasidagi farqlar.</p><div class="prose"><h2 id="s1">String nima</h2>
+<p>String (satr) <strong>belgilar ketma-ketligi</strong>. Tuzilishi jihatidan array&#x27;ga o&#x27;xshaydi: har bir belgining indeksi bor (<code>0</code> dan boshlanadi), indeks bo&#x27;yicha o&#x27;qish tez. Asosiy farqi: string&#x27;larda belgilar ustida maxsus amallar (qidirish, bo&#x27;lish, birlashtirish) ko&#x27;p, shuningdek ko&#x27;p tilda string <strong>o&#x27;zgarmas</strong> (immutable).</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>s = &quot;hello&quot;
+#   indeks: 0 1 2 3 4</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$s = &quot;hello&quot;;
+//  indeks: 0 1 2 3 4</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>s := &quot;hello&quot;
+//  indeks: 0 1 2 3 4</code></pre></div></section>
+<h2 id="s2">O&#x27;zgarmaslik (immutability)</h2>
+<p>Python va Go&#x27;da string&#x27;ning belgisini o&#x27;zgartirib bo&#x27;lmaydi: <code>s[0] = &quot;H&quot;</code> xato beradi. O&#x27;zgartirish uchun <strong>yangi string</strong> yaratiladi. PHP&#x27;da <code>$s[0] = &quot;H&quot;</code> ishlaydi, lekin bunga ko&#x27;p tayanilmaydi.</p>
+<p>Bu muhim oqibat beradi: string&#x27;ni sikl ichida <code>s = s + &quot;x&quot;</code> bilan to&#x27;ldirish har safar yangi nusxa yaratadi va umumiy narx <strong>O(n²)</strong> ga chiqadi. To&#x27;g&#x27;ri yo&#x27;li quyida (&quot;Qurish&quot; bo&#x27;limi).</p>
+<h2 id="s3">Unicode va baytlar</h2>
+<p>Lotin harflarida belgi = 1 bayt, lekin <code>ў</code>, <code>ё</code> yoki emoji kabi belgilar bir necha bayt oladi. Tillar bunda turlicha harakat qiladi:</p>
+<div class="tbl"><table><thead><tr><th></th><th><code>len(&quot;ўз&quot;)</code></th><th>Indeks <code>s[i]</code></th><th>Nima uchun</th></tr></thead><tbody><tr><td>Python</td><td><code>2</code></td><td>1 belgilik str</td><td>Python belgilarni (code point) sanaydi</td></tr><tr><td>PHP</td><td><code>4</code></td><td>1 bayt</td><td><code>strlen</code> baytlarni sanaydi, belgilar uchun <code>mb_strlen</code></td></tr><tr><td>Go</td><td><code>4</code></td><td>1 bayt (<code>byte</code>)</td><td><code>len</code> baytlarni sanaydi, belgilar uchun <code>[]rune</code> yoki <code>range</code></td></tr></tbody></table></div>
+<p>LeetCode masalalarida odatda faqat ASCII (lotin harflari, raqamlar) bo&#x27;ladi, shuning uchun bu farq kam seziladi, lekin real kodda muhim.</p>
+<h2 id="s4">Amallar va murakkablik</h2>
+<div class="tbl"><table><thead><tr><th>Amal</th><th>Vaqt</th><th>Izoh</th></tr></thead><tbody><tr><td>Indeks bo&#x27;yicha o&#x27;qish <code>s[i]</code></td><td>O(1)</td><td>Array kabi</td></tr><tr><td>Uzunlik <code>len(s)</code></td><td>O(1)</td><td>Saqlab qo&#x27;yilgan</td></tr><tr><td>Aylanib chiqish</td><td>O(n)</td><td>Har belgi bir marta</td></tr><tr><td>Ikki string&#x27;ni birlashtirish <code>s + t</code></td><td>O(n + m)</td><td>Yangi string yaratiladi</td></tr><tr><td>Kesim (slice) <code>s[a:b]</code></td><td>O(k)</td><td><code>k</code> = kesim uzunligi (Go&#x27;da O(1), ko&#x27;chirmaydi)</td></tr><tr><td>Taqqoslash <code>s == t</code></td><td>O(n)</td><td>Eng yomon holda hamma belgi</td></tr><tr><td>Substring qidirish</td><td>O(n·m)</td><td>Sodda usulda, <code>n</code> = matn, <code>m</code> = namuna</td></tr><tr><td>Teskari aylantirish</td><td>O(n)</td><td>Yangi string yaratiladi</td></tr><tr><td>Xotira</td><td>O(n)</td><td><code>n</code> belgi uchun</td></tr></tbody></table></div>
+<h2 id="s5">Read: belgi va kesim olish</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>s = &quot;hello&quot;
+
+print(s[0])      # h, birinchi
+print(s[-1])     # o, oxirgi
+print(len(s))    # 5
+print(s[1:4])    # ell, 1-indeksdan 4-gacha (4 kirmaydi)</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$s = &quot;hello&quot;;
+
+echo $s[0];                // h, birinchi
+echo $s[-1];               // o, oxirgi (PHP 7.1+)
+echo strlen($s);           // 5
+echo substr($s, 1, 3);     // ell, 1-indeksdan 3 belgi</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>s := &quot;hello&quot;
+
+fmt.Println(string(s[0]))        // h, birinchi (s[0] byte, shuning uchun string() kerak)
+fmt.Println(string(s[len(s)-1])) // o, oxirgi
+fmt.Println(len(s))              // 5
+fmt.Println(s[1:4])              // ell, 1-indeksdan 4-gacha (4 kirmaydi)</code></pre></div></section>
+<blockquote>Go&#x27;da <code>s[0]</code> belgi emas, <strong>bayt</strong> (son) qaytaradi: <code>fmt.Println(s[0])</code> <code>104</code> chiqaradi. Belgini ko&#x27;rish uchun <code>string(s[0])</code>.</blockquote>
+<h2 id="s6">Aylanib chiqish</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>s = &quot;hello&quot;
+
+for i, ch in enumerate(s):    # indeks va belgi
+    print(i, ch)
+
+for ch in s:                  # faqat belgi
+    print(ch)</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$s = &quot;hello&quot;;
+
+for ($i = 0; $i &lt; strlen($s); $i++) {   // indeks va bayt
+    echo $i, &quot; &quot;, $s[$i], &quot;\n&quot;;
+}</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>s := &quot;hello&quot;
+
+for i := 0; i &lt; len(s); i++ {   // indeks va bayt
+	fmt.Println(i, string(s[i]))
+}
+
+for i, ch := range s {          // indeks va belgi (rune), Unicode&#x27;ga mos
+	fmt.Println(i, string(ch))
+}</code></pre></div></section>
+<h2 id="s7">Qurish: string yig&#x27;ish</h2>
+<p>Natijani belgi-belgi yig&#x27;ayotgan bo&#x27;lsangiz, <code>s = s + ch</code> o&#x27;rniga maxsus usul ishlating.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>parts = []
+for ch in &quot;abc&quot;:
+    parts.append(ch.upper())
+
+result = &quot;&quot;.join(parts)   # O(n), bir marta birlashtiradi
+print(result)             # ABC</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$result = &quot;&quot;;
+foreach (str_split(&quot;abc&quot;) as $ch) {
+    $result .= strtoupper($ch);   // PHP&#x27;da .= samarali
+}
+echo $result;                     // ABC</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>var sb strings.Builder
+for _, ch := range &quot;abc&quot; {
+	sb.WriteString(strings.ToUpper(string(ch)))
+}
+
+fmt.Println(sb.String())   // ABC, O(n)</code></pre></div></section>
+<h2 id="s8">Qidirish</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>s = &quot;hello&quot;
+
+print(&quot;ell&quot; in s)       # True, bormi
+print(s.find(&quot;ell&quot;))    # 1, indeksi (topilmasa -1)
+print(s.count(&quot;l&quot;))     # 2, necha marta</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$s = &quot;hello&quot;;
+
+var_dump(str_contains($s, &quot;ell&quot;));   // true, bormi (PHP 8+)
+var_dump(strpos($s, &quot;ell&quot;));         // int(1), indeksi (topilmasa false)
+echo substr_count($s, &quot;l&quot;);          // 2, necha marta</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>s := &quot;hello&quot;
+
+fmt.Println(strings.Contains(s, &quot;ell&quot;))   // true, bormi
+fmt.Println(strings.Index(s, &quot;ell&quot;))      // 1, indeksi (topilmasa -1)
+fmt.Println(strings.Count(s, &quot;l&quot;))        // 2, necha marta</code></pre></div></section>
+<blockquote>PHP&#x27;da <code>strpos</code> topilmasa <code>false</code>, boshida topilsa <code>0</code> qaytaradi. <code>if (strpos(...))</code> yozsangiz <code>0</code> ham &quot;yolg&#x27;on&quot; hisoblanadi. Doim <code>!== false</code> bilan tekshiring.</blockquote>
+<h2 id="s9">O&#x27;zgartirish</h2>
+<p>String o&#x27;zgarmas bo&#x27;lgani uchun bu amallar hammasi <strong>yangi string</strong> qaytaradi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>s = &quot;  Hello  &quot;
+
+print(s.strip())              # &quot;Hello&quot;
+print(s.lower())              # &quot;  hello  &quot;
+print(s.upper())              # &quot;  HELLO  &quot;
+print(s.replace(&quot;l&quot;, &quot;L&quot;))    # &quot;  HeLLo  &quot;</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$s = &quot;  Hello  &quot;;
+
+echo trim($s);                  // &quot;Hello&quot;
+echo strtolower($s);            // &quot;  hello  &quot;
+echo strtoupper($s);            // &quot;  HELLO  &quot;
+echo str_replace(&quot;l&quot;, &quot;L&quot;, $s); // &quot;  HeLLo  &quot;</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>s := &quot;  Hello  &quot;
+
+fmt.Println(strings.TrimSpace(s))          // &quot;Hello&quot;
+fmt.Println(strings.ToLower(s))            // &quot;  hello  &quot;
+fmt.Println(strings.ToUpper(s))            // &quot;  HELLO  &quot;
+fmt.Println(strings.ReplaceAll(s, &quot;l&quot;, &quot;L&quot;)) // &quot;  HeLLo  &quot;</code></pre></div></section>
+<h2 id="s10">Bo&#x27;lish va birlashtirish</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>parts = &quot;a,b,c&quot;.split(&quot;,&quot;)   # [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]
+text = &quot;-&quot;.join(parts)       # &quot;a-b-c&quot;</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$parts = explode(&quot;,&quot;, &quot;a,b,c&quot;);   // [a, b, c]
+$text = implode(&quot;-&quot;, $parts);     // &quot;a-b-c&quot;</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>parts := strings.Split(&quot;a,b,c&quot;, &quot;,&quot;)   // [a b c]
+text := strings.Join(parts, &quot;-&quot;)       // &quot;a-b-c&quot;</code></pre></div></section>
+<h2 id="s11">Belgi va son</h2>
+<p>Raqam belgisini songa o&#x27;girish va belgi kodini olish masalalarda tez-tez kerak bo&#x27;ladi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>print(ord(&quot;a&quot;))             # 97, belgi kodi
+print(chr(97))              # a
+print(int(&quot;7&quot;))             # 7, string -&gt; son
+print(ord(&quot;7&quot;) - ord(&quot;0&quot;))  # 7, raqam belgisi -&gt; son
+print(str(7))               # &quot;7&quot;, son -&gt; string</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>echo ord(&quot;a&quot;);              // 97, belgi kodi
+echo chr(97);               // a
+echo (int)&quot;7&quot;;              // 7, string -&gt; son
+echo ord(&quot;7&quot;) - ord(&quot;0&quot;);   // 7, raqam belgisi -&gt; son
+echo (string)7;             // &quot;7&quot;, son -&gt; string</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>fmt.Println(&#x27;a&#x27;)                       // 97, belgi kodi
+fmt.Println(string(rune(97)))          // a
+n, _ := strconv.Atoi(&quot;7&quot;)              // 7, string -&gt; son
+fmt.Println(n)
+fmt.Println(int(&quot;7&quot;[0] - &#x27;0&#x27;))         // 7, raqam belgisi -&gt; son
+fmt.Println(strconv.Itoa(7))           // &quot;7&quot;, son -&gt; string</code></pre></div></section>
+<h2 id="s12">Teskari aylantirish</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>s = &quot;hello&quot;
+print(s[::-1])   # olleh</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$s = &quot;hello&quot;;
+echo strrev($s);   // olleh</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>s := &quot;hello&quot;
+r := []rune(s)
+
+for i, j := 0, len(r)-1; i &lt; j; i, j = i+1, j-1 {
+	r[i], r[j] = r[j], r[i]
+}
+
+fmt.Println(string(r))   // olleh</code></pre></div></section>
+<h2 id="s13">Tillar o&#x27;rtasidagi farqlar</h2>
+<div class="tbl"><table><thead><tr><th></th><th>Python</th><th>PHP</th><th>Go</th></tr></thead><tbody><tr><td>O&#x27;zgarmas</td><td>Ha</td><td>Yo&#x27;q (lekin ko&#x27;p amallar nusxa qaytaradi)</td><td>Ha</td></tr><tr><td>Indeks natijasi</td><td>1 belgilik <code>str</code></td><td>1 baytlik <code>string</code></td><td><code>byte</code> (son)</td></tr><tr><td>Manfiy indeks</td><td><code>s[-1]</code></td><td><code>$s[-1]</code> (7.1+)</td><td>Yo&#x27;q</td></tr><tr><td>Uzunlik</td><td>Belgilar soni</td><td>Baytlar soni</td><td>Baytlar soni</td></tr><tr><td>Birlashtirish</td><td><code>+</code>, <code>join</code></td><td><code>.</code>, <code>.=</code></td><td><code>+</code>, <code>strings.Builder</code></td></tr><tr><td>Belgi turi</td><td>Alohida tur yo&#x27;q</td><td>Alohida tur yo&#x27;q</td><td><code>byte</code> va <code>rune</code></td></tr></tbody></table></div>
+<h2 id="s14">Ko&#x27;p uchraydigan xatolar</h2>
+<ul><li><strong>Sikl ichida <code>s += ch</code>.</strong> Har safar yangi nusxa yaratiladi, umumiy O(n²). Python&#x27;da <code>join</code>, Go&#x27;da <code>strings.Builder</code> ishlating.</li><li><strong>Go&#x27;da <code>s[i]</code> belgi deb o&#x27;ylash.</strong> U <code>byte</code>. Belgi sifatida chiqarish uchun <code>string(s[i])</code>, solishtirish uchun <code>s[i] == &#x27;a&#x27;</code>.</li><li><strong>Unicode.</strong> Go va PHP&#x27;da <code>len</code> baytlarni sanaydi. Lotin bo&#x27;lmagan matnda <code>[]rune</code> (Go) yoki <code>mb_strlen</code> (PHP).</li><li><strong>PHP&#x27;da <code>strpos</code> natijasi.</strong> <code>0</code> va <code>false</code> ni <code>!==</code> bilan ajrating.</li><li><strong>Chegaradan chiqish.</strong> <code>s[i]</code> da <code>i</code> <code>0..len-1</code> oralig&#x27;ida bo&#x27;lsin. Python <code>IndexError</code>, Go <code>panic</code>, PHP ogohlantirish beradi.</li><li><strong>Katta-kichik harf.</strong> <code>&quot;A&quot; != &quot;a&quot;</code>. Taqqoslashdan oldin <code>lower()</code> qiling.</li><li><strong>Bo&#x27;sh string.</strong> <code>s[0]</code> yoki <code>s[len-1]</code> dan oldin <code>len(s) &gt; 0</code> ni tekshiring.</li></ul></div><h2>Shu topicdagi masalalar</h2><div class="list"><a class="row" href="../problems/0013-roman-to-integer.html"><span class="n">0013</span><span class="t">Roman to Integer</span><span></span><span class="badge Easy">Easy</span></a><a class="row" href="../problems/0014-longest-common-prefix.html"><span class="n">0014</span><span class="t">Longest Common Prefix</span><span></span><span class="badge Easy">Easy</span></a></div></article><aside class="toc"><span class="label">Mundarija</span><a href="#s1">String nima</a><a href="#s2">O&#x27;zgarmaslik (immutability)</a><a href="#s3">Unicode va baytlar</a><a href="#s4">Amallar va murakkablik</a><a href="#s5">Read: belgi va kesim olish</a><a href="#s6">Aylanib chiqish</a><a href="#s7">Qurish: string yig&#x27;ish</a><a href="#s8">Qidirish</a><a href="#s9">O&#x27;zgartirish</a><a href="#s10">Bo&#x27;lish va birlashtirish</a><a href="#s11">Belgi va son</a><a href="#s12">Teskari aylantirish</a><a href="#s13">Tillar o&#x27;rtasidagi farqlar</a><a href="#s14">Ko&#x27;p uchraydigan xatolar</a></aside></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

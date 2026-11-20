@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roman to Integer — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../index.html">Masalalar</a><i>/</i><span>0013</span></div><div class="split"><div class="brief"><div><h1>Roman to Integer</h1><div class="meta"><span class="badge Easy">Easy</span><a class="ext" href="https://leetcode.com/problems/roman-to-integer/" target="_blank" rel="noopener">LeetCode<svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div><div class="panel-card topics-box"><span class="label">Topics</span><a class="chip" href="../topics/string.html">String</a><a class="chip" href="../topics/hash-map.html">Hash Map</a></div><div class="meters"><div class="meter mid"><div class="meter-top"><span>Vaqt</span><b>O(n)</b></div></div><div class="meter lo"><div class="meter-top"><span>Xotira</span><b>O(1)</b></div></div></div><div class="panel-card idea"><span class="label">G'oya</span><div class="prose"><p>Har bir belgining qiymatini hash map&#x27;dan olamiz. Agar belgi o&#x27;ngdagi belgidan <strong>kichik</strong> bo&#x27;lsa (<code>IV</code>, <code>IX</code>, <code>XC</code>), u ayiriladi, aks holda qo&#x27;shiladi. Satr chapdan o&#x27;ngga bir marta aylanib chiqiladi. Map&#x27;da atigi 7 ta kalit bor, shuning uchun xotira doimiy.</p></div></div><div class=pager><a class="prev" href="0009-palindrome-number.html"><small>← Oldingi</small>Palindrome Number</a><a class="next" href="0014-longest-common-prefix.html"><small>Keyingi →</small>Longest Common Prefix</a></div></div><section class="editor" data-tabs aria-label="Yechim"><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">solution.py</button><button type="button" role="tab" data-lang="php" aria-selected="false">solution.php</button><button type="button" role="tab" data-lang="go" aria-selected="false">solution.go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>class Solution:
+    def romanToInt(self, s: str) -&gt; int:
+        roman = {
+            &#x27;I&#x27;: 1,
+            &#x27;V&#x27;: 5,
+            &#x27;X&#x27;: 10,
+            &#x27;L&#x27;: 50,
+            &#x27;C&#x27;: 100,
+            &#x27;D&#x27;: 500,
+            &#x27;M&#x27;: 1000
+        }
+
+        total = 0
+        n = len(s)
+
+        for i in range(n):
+            if i &lt; n - 1 and roman[s[i]] &lt; roman[s[i + 1]]:
+                total -= roman[s[i]]
+            else:
+                total += roman[s[i]]
+
+        return total</code></pre><div class="status"><span>Python</span><span>22 qator · UTF-8</span></div></div><div class="panel" data-lang="php" hidden><pre><code>class Solution {
+
+    /**
+     * @param String $s
+     * @return Integer
+     */
+    function romanToInt($s) {
+        $roman = [
+            &#x27;I&#x27; =&gt; 1,
+            &#x27;V&#x27; =&gt; 5,
+            &#x27;X&#x27; =&gt; 10,
+            &#x27;L&#x27; =&gt; 50,
+            &#x27;C&#x27; =&gt; 100,
+            &#x27;D&#x27; =&gt; 500,
+            &#x27;M&#x27; =&gt; 1000,
+        ];
+
+        $total = 0;
+        $n = strlen($s);
+
+        for ($i = 0; $i &lt; $n; $i++) {
+            if ($i &lt; $n - 1 &amp;&amp; $roman[$s[$i]] &lt; $roman[$s[$i + 1]]) {
+                $total -= $roman[$s[$i]];
+            } else {
+                $total += $roman[$s[$i]];
+            }
+        }
+
+        return $total;
+    }
+}</code></pre><div class="status"><span>PHP</span><span>31 qator · UTF-8</span></div></div><div class="panel" data-lang="go" hidden><pre><code>func romanToInt(s string) int {
+	roman := map[byte]int{
+		&#x27;I&#x27;: 1,
+		&#x27;V&#x27;: 5,
+		&#x27;X&#x27;: 10,
+		&#x27;L&#x27;: 50,
+		&#x27;C&#x27;: 100,
+		&#x27;D&#x27;: 500,
+		&#x27;M&#x27;: 1000,
+	}
+
+	total := 0
+	n := len(s)
+
+	for i := 0; i &lt; n; i++ {
+		if i &lt; n-1 &amp;&amp; roman[s[i]] &lt; roman[s[i+1]] {
+			total -= roman[s[i]]
+		} else {
+			total += roman[s[i]]
+		}
+	}
+
+	return total
+}</code></pre><div class="status"><span>Go</span><span>24 qator · UTF-8</span></div></div></section></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hash Map — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../topics.html">Topiclar</a><i>/</i><span>Hash Map</span></div><div class="doc"><article class="article"><span class="eyebrow">Topic</span><h1>Hash Map</h1><p class="sub">Kalit va qiymat juftliklarini saqlaydigan tuzilma. O&#x27;rtacha O(1) da qidirish, qo&#x27;shish va o&#x27;chirish.</p><div class="prose"><h2 id="s1">Hash Map nima</h2>
+<p>Hash map (hash table, dictionary, associative array) ma&#x27;lumotni <strong>kalit → qiymat</strong> juftligi sifatida saqlaydi. Qiymatni indeks bilan emas, <strong>kalit</strong> bilan topasiz. Masalan, ismdan yoshni, so&#x27;zdan uning necha marta uchrashganini yoki sondan uning indeksini.</p>
+<p>Asosiy afzalligi: qidirish, qo&#x27;shish va o&#x27;chirish <strong>o&#x27;rtacha O(1)</strong>. Arrayda xuddi shu qidiruv O(n) bo&#x27;lardi.</p>
+<p>Turli tillarda nomi har xil, lekin g&#x27;oya bitta:</p>
+<div class="tbl"><table><thead><tr><th>Til</th><th>Nomi</th></tr></thead><tbody><tr><td>Python</td><td><code>dict</code></td></tr><tr><td>PHP</td><td>assotsiativ <code>array</code></td></tr><tr><td>Go</td><td><code>map</code></td></tr></tbody></table></div>
+<h2 id="s2">Ichida qanday ishlaydi</h2>
+<p>Hash map ichida oddiy array turadi. Uning kataklari <strong>bucket</strong> deyiladi. Kalit bilan ishlash uch qadamda bo&#x27;ladi:</p>
+<p>1. <strong>Hash funksiya</strong> kalitni butun songa aylantiradi: <code>hash(&quot;ali&quot;)</code> → masalan <code>918273645</code>. 2. Shu sondan bucket indeksi olinadi: <code>indeks = hash % bucketlar_soni</code>. 3. Qiymat shu bucketga yoziladi yoki o&#x27;sha yerdan o&#x27;qiladi.</p>
+<p>Hash funksiya bir xil kalit uchun doim bir xil son beradi. Shuning uchun kalit bo&#x27;yicha to&#x27;g&#x27;ridan-to&#x27;g&#x27;ri kerakli katakka boriladi va butun tuzilmani ko&#x27;rib chiqish shart emas. Array indeksi bo&#x27;yicha O(1) ishlashi bilan bir xil g&#x27;oya.</p>
+<h2 id="s3">Kolliziya</h2>
+<p>Ikki xil kalit bir xil bucketga tushib qolishi mumkin. Bunga <strong>kolliziya</strong> deyiladi. Bu normal holat, uni hal qilish kerak. Ikki asosiy usul bor:</p>
+<ul><li><strong>Chaining:</strong> har bir bucketda kichik ro&#x27;yxat turadi, kolliziyaga uchragan juftliklar shu ro&#x27;yxatga qo&#x27;shiladi. Go <code>map</code> va Java <code>HashMap</code> shunga yaqin ishlaydi.</li><li><strong>Open addressing:</strong> bucket band bo&#x27;lsa, keyingi bo&#x27;sh bucket qidiriladi. Python <code>dict</code> shu usulni ishlatadi.</li></ul>
+<p>Kolliziya kam bo&#x27;lsa, amallar O(1) ga yaqin bo&#x27;ladi. Juda ko&#x27;p bo&#x27;lsa, bitta bucketda ko&#x27;p element yig&#x27;iladi va qidirish O(n) ga yaqinlashadi.</p>
+<h2 id="s4">Load factor va kengayish</h2>
+<p><strong>Load factor</strong> = elementlar soni / bucketlar soni. U ma&#x27;lum chegaradan oshsa (odatda taxminan 0.7 dan), hash map bucketlar sonini oshirib, <strong>barcha elementlarni qayta joylashtiradi</strong> (rehash). Bu bir marta <strong>O(n)</strong> vaqt oladi, lekin kamdan-kam bo&#x27;ladi. Shuning uchun qo&#x27;shishning o&#x27;rtacha narxi <strong>amortizatsiyalangan O(1)</strong>.</p>
+<h2 id="s5">Amallar va murakkablik</h2>
+<div class="tbl"><table><thead><tr><th>Amal</th><th>O&#x27;rtacha</th><th>Eng yomon</th><th>Izoh</th></tr></thead><tbody><tr><td>Get (kalit bo&#x27;yicha o&#x27;qish)</td><td>O(1)</td><td>O(n)</td><td>Hash → bucket → qiymat</td></tr><tr><td>Put (qo&#x27;shish yoki yangilash)</td><td>O(1)</td><td>O(n)</td><td>Ba&#x27;zan rehash bo&#x27;ladi</td></tr><tr><td>Delete</td><td>O(1)</td><td>O(n)</td><td>Kalit bo&#x27;yicha</td></tr><tr><td>Contains (kalit bormi)</td><td>O(1)</td><td>O(n)</td><td><code>in</code>, <code>isset</code>, <code>ok</code></td></tr><tr><td>Aylanib chiqish</td><td>O(n)</td><td>O(n)</td><td>Barcha juftliklar</td></tr><tr><td>Xotira</td><td>O(n)</td><td>O(n)</td><td>Array&#x27;dan ko&#x27;proq: bucketlar va hash&#x27;lar uchun joy kerak</td></tr></tbody></table></div>
+<p>Eng yomon holat (O(n)) amalda kam uchraydi: hamma kalit bitta bucketga tushsagina bo&#x27;ladi. Yaxshi hash funksiya bunga yo&#x27;l qo&#x27;ymaydi, shuning uchun masalalarda odatda O(1) deb hisoblanadi.</p>
+<h2 id="s6">Yaratish, qo&#x27;shish, yangilash</h2>
+<p>Mavjud bo&#x27;lmagan kalitga yozsangiz, juftlik <strong>qo&#x27;shiladi</strong>. Mavjud kalitga yozsangiz, qiymat <strong>yangilanadi</strong>. Ikkalasi bir xil sintaksis bilan yoziladi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>ages = {&quot;ali&quot;: 20, &quot;vali&quot;: 25}   # yaratish
+empty = {}                       # bo&#x27;sh dict
+
+ages[&quot;sami&quot;] = 30                # yangi kalit: qo&#x27;shiladi
+ages[&quot;ali&quot;] = 21                 # mavjud kalit: yangilanadi
+print(ages)                      # {&#x27;ali&#x27;: 21, &#x27;vali&#x27;: 25, &#x27;sami&#x27;: 30}</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$ages = [&quot;ali&quot; =&gt; 20, &quot;vali&quot; =&gt; 25];   // yaratish
+$empty = [];                           // bo&#x27;sh array
+
+$ages[&quot;sami&quot;] = 30;                    // yangi kalit: qo&#x27;shiladi
+$ages[&quot;ali&quot;] = 21;                     // mavjud kalit: yangilanadi
+print_r($ages);                        // [ali =&gt; 21, vali =&gt; 25, sami =&gt; 30]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>ages := map[string]int{&quot;ali&quot;: 20, &quot;vali&quot;: 25} // yaratish
+empty := make(map[string]int)                 // bo&#x27;sh map
+_ = empty
+
+ages[&quot;sami&quot;] = 30                             // yangi kalit: qo&#x27;shiladi
+ages[&quot;ali&quot;] = 21                              // mavjud kalit: yangilanadi
+fmt.Println(ages)                             // map[ali:21 sami:30 vali:25]</code></pre></div></section>
+<h2 id="s7">Read: qiymatni o&#x27;qish</h2>
+<p>Kalit mavjud bo&#x27;lmasa, tillar har xil harakat qiladi. Shuning uchun &quot;kalit bormi&quot; ni xavfsiz tekshirish usulini bilish muhim.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>ages = {&quot;ali&quot;: 20, &quot;vali&quot;: 25}
+
+print(ages[&quot;ali&quot;])            # 20
+# print(ages[&quot;zafar&quot;])        # KeyError: kalit yo&#x27;q
+print(ages.get(&quot;zafar&quot;))      # None, xato bermaydi
+print(ages.get(&quot;zafar&quot;, 0))   # 0, default qiymat bilan</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$ages = [&quot;ali&quot; =&gt; 20, &quot;vali&quot; =&gt; 25];
+
+echo $ages[&quot;ali&quot;];            // 20
+// echo $ages[&quot;zafar&quot;];       // Warning: Undefined array key
+echo $ages[&quot;zafar&quot;] ?? 0;     // 0, default qiymat bilan</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>ages := map[string]int{&quot;ali&quot;: 20, &quot;vali&quot;: 25}
+
+fmt.Println(ages[&quot;ali&quot;])      // 20
+fmt.Println(ages[&quot;zafar&quot;])    // 0, kalit yo&#x27;q bo&#x27;lsa tur uchun nol qiymat
+
+age, ok := ages[&quot;zafar&quot;]      // &quot;comma ok&quot; idiomasi
+fmt.Println(age, ok)          // 0 false</code></pre></div></section>
+<blockquote>Go&#x27;da <code>ages[&quot;zafar&quot;]</code> xato bermaydi va <code>0</code> qaytaradi. Shuning uchun qiymat haqiqatan <code>0</code> mi yoki kalit yo&#x27;qmi, buni faqat ikkinchi qiymat <code>ok</code> aytib beradi.</blockquote>
+<h2 id="s8">Contains: kalit bormi</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>ages = {&quot;ali&quot;: 20}
+
+print(&quot;ali&quot; in ages)      # True
+print(&quot;zafar&quot; in ages)    # False</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$ages = [&quot;ali&quot; =&gt; 20, &quot;bek&quot; =&gt; null];
+
+var_dump(array_key_exists(&quot;ali&quot;, $ages));  // true
+var_dump(isset($ages[&quot;ali&quot;]));             // true
+var_dump(isset($ages[&quot;bek&quot;]));             // false! qiymat null bo&#x27;lgani uchun
+var_dump(array_key_exists(&quot;bek&quot;, $ages));  // true</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>ages := map[string]int{&quot;ali&quot;: 20}
+
+_, ok := ages[&quot;ali&quot;]
+fmt.Println(ok)     // true
+
+_, ok = ages[&quot;zafar&quot;]
+fmt.Println(ok)     // false</code></pre></div></section>
+<h2 id="s9">Delete: o&#x27;chirish</h2>
+<p>O&#x27;chirish kalit bo&#x27;yicha bo&#x27;ladi va o&#x27;rtacha <strong>O(1)</strong>. Arraydagidek elementlarni surish kerak emas.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>ages = {&quot;ali&quot;: 20, &quot;vali&quot;: 25, &quot;sami&quot;: 30}
+
+del ages[&quot;vali&quot;]              # kalit yo&#x27;q bo&#x27;lsa KeyError
+ages.pop(&quot;sami&quot;, None)        # xavfsiz: yo&#x27;q bo&#x27;lsa None qaytaradi
+print(ages)                   # {&#x27;ali&#x27;: 20}</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$ages = [&quot;ali&quot; =&gt; 20, &quot;vali&quot; =&gt; 25, &quot;sami&quot; =&gt; 30];
+
+unset($ages[&quot;vali&quot;]);         // kalit yo&#x27;q bo&#x27;lsa ham xato bermaydi
+unset($ages[&quot;sami&quot;]);
+print_r($ages);               // [ali =&gt; 20]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>ages := map[string]int{&quot;ali&quot;: 20, &quot;vali&quot;: 25, &quot;sami&quot;: 30}
+
+delete(ages, &quot;vali&quot;)          // kalit yo&#x27;q bo&#x27;lsa ham xato bermaydi
+delete(ages, &quot;sami&quot;)
+fmt.Println(ages)             // map[ali:20]</code></pre></div></section>
+<h2 id="s10">Aylanib chiqish va uzunlik</h2>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>ages = {&quot;ali&quot;: 20, &quot;vali&quot;: 25}
+
+for name, age in ages.items():   # kalit va qiymat
+    print(name, age)
+
+print(len(ages))                 # 2
+print(list(ages.keys()))         # [&#x27;ali&#x27;, &#x27;vali&#x27;]
+print(list(ages.values()))       # [20, 25]</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$ages = [&quot;ali&quot; =&gt; 20, &quot;vali&quot; =&gt; 25];
+
+foreach ($ages as $name =&gt; $age) {   // kalit va qiymat
+    echo &quot;$name $age\n&quot;;
+}
+
+echo count($ages);                   // 2
+print_r(array_keys($ages));          // [ali, vali]
+print_r(array_values($ages));        // [20, 25]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>ages := map[string]int{&quot;ali&quot;: 20, &quot;vali&quot;: 25}
+
+for name, age := range ages {   // kalit va qiymat
+	fmt.Println(name, age)
+}
+
+fmt.Println(len(ages))          // 2</code></pre></div></section>
+<blockquote>Tartib: Python 3.7+ va PHP juftliklarni <strong>qo&#x27;shilgan tartibda</strong> saqlaydi. Go&#x27;da <code>range</code> tartibi <strong>ataylab tasodifiy</strong>, har ishga tushirishda boshqacha bo&#x27;lishi mumkin. Tartib kerak bo&#x27;lsa, kalitlarni alohida olib <code>sort</code> qiling.</blockquote>
+<h2 id="s11">Sanash (frequency count)</h2>
+<p>Hash map&#x27;ning eng ko&#x27;p uchraydigan qo&#x27;llanishi: har bir elementning necha marta uchrashini sanash.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>words = [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;]
+counts = {}
+
+for w in words:
+    counts[w] = counts.get(w, 0) + 1
+
+print(counts)   # {&#x27;a&#x27;: 3, &#x27;b&#x27;: 2, &#x27;c&#x27;: 1}
+# tayyor variant: collections.Counter(words)</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$words = [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;];
+$counts = [];
+
+foreach ($words as $w) {
+    $counts[$w] = ($counts[$w] ?? 0) + 1;
+}
+
+print_r($counts);   // [a =&gt; 3, b =&gt; 2, c =&gt; 1]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>words := []string{&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;}
+counts := make(map[string]int)
+
+for _, w := range words {
+	counts[w]++   // yo&#x27;q kalit uchun 0 dan boshlanadi
+}
+
+fmt.Println(counts)   // map[a:3 b:2 c:1]</code></pre></div></section>
+<h2 id="s12">Set: faqat kalitlar</h2>
+<p>Ba&#x27;zan qiymat kerak emas, faqat &quot;element bormi&quot; degan savolga javob kerak. Buning uchun <strong>set</strong> ishlatiladi. U ichida hash map kabi ishlaydi, shuning uchun qo&#x27;shish va tekshirish ham o&#x27;rtacha <strong>O(1)</strong>. Ikki barobar bir xil element saqlanmaydi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>seen = set()
+seen.add(3)
+seen.add(3)            # takror qo&#x27;shilmaydi
+print(3 in seen)       # True
+print(len(seen))       # 1</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$seen = [];
+$seen[3] = true;       // PHP&#x27;da alohida set yo&#x27;q, kalitdan foydalaniladi
+$seen[3] = true;       // takror qo&#x27;shilmaydi
+var_dump(isset($seen[3]));   // true
+echo count($seen);           // 1</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>seen := make(map[int]struct{})   // struct{} xotira egallamaydi
+seen[3] = struct{}{}
+seen[3] = struct{}{}             // takror qo&#x27;shilmaydi
+_, ok := seen[3]
+fmt.Println(ok, len(seen))       // true 1</code></pre></div></section>
+<h2 id="s13">Kalit uchun talablar</h2>
+<p>Kalit <strong>o&#x27;zgarmas</strong> va <strong>hash qilinadigan</strong> bo&#x27;lishi kerak, aks holda hash o&#x27;zgarib ketib, qiymatni topib bo&#x27;lmay qoladi.</p>
+<div class="tbl"><table><thead><tr><th></th><th>Python</th><th>PHP</th><th>Go</th></tr></thead><tbody><tr><td>Mumkin</td><td><code>int</code>, <code>str</code>, <code>tuple</code>, <code>frozenset</code>, <code>bool</code></td><td><code>int</code>, <code>string</code></td><td><code>int</code>, <code>string</code>, <code>bool</code>, struct va array (agar ichidagilar ham taqqoslanuvchi bo&#x27;lsa)</td></tr><tr><td>Mumkin emas</td><td><code>list</code>, <code>dict</code>, <code>set</code> (<code>TypeError</code>)</td><td>massiv va obyekt</td><td><code>slice</code>, <code>map</code>, <code>func</code> (kompilyatsiya xatosi)</td></tr></tbody></table></div>
+<p>Ikki o&#x27;lchamli koordinata kerak bo&#x27;lsa, Python&#x27;da <code>tuple</code> ishlatiladi: <code>grid[(2, 3)] = 1</code>. Go&#x27;da struct yoki <code>[2]int</code> ishlatiladi.</p>
+<blockquote>PHP&#x27;da kalit faqat <code>int</code> yoki <code>string</code>. <code>&quot;5&quot;</code> kaliti avtomatik <code>5</code> ga aylanadi, <code>1.7</code> esa <code>1</code> ga qirqiladi, <code>true</code> esa <code>1</code> bo&#x27;ladi. Kutilmagan to&#x27;qnashuvlar shundan chiqadi.</blockquote>
+<h2 id="s14">Tillar o&#x27;rtasidagi farqlar</h2>
+<div class="tbl"><table><thead><tr><th></th><th>Python</th><th>PHP</th><th>Go</th></tr></thead><tbody><tr><td>Yo&#x27;q kalitga o&#x27;qish</td><td><code>KeyError</code></td><td>Ogohlantirish, <code>null</code></td><td>Nol qiymat (<code>0</code>, <code>&quot;&quot;</code>, <code>nil</code>)</td></tr><tr><td>Bo&#x27;sh holat</td><td><code>{}</code></td><td><code>[]</code></td><td><code>nil</code> map (yozib bo&#x27;lmaydi!)</td></tr><tr><td>Tartib</td><td>Qo&#x27;shilgan tartib</td><td>Qo&#x27;shilgan tartib</td><td>Tasodifiy</td></tr><tr><td>Qiymat turi</td><td>Aralash</td><td>Aralash</td><td>Hammasi bir xil</td></tr><tr><td>Nusxalash</td><td><code>b = a</code> ishora, <code>a.copy()</code> nusxa</td><td><code>$b = $a</code> nusxa oladi</td><td><code>b := a</code> bir xil map, nusxa qo&#x27;lda</td></tr></tbody></table></div>
+<h2 id="s15">Ko&#x27;p uchraydigan xatolar</h2>
+<ul><li><strong>Go&#x27;da <code>nil</code> map&#x27;ga yozish.</strong> <code>var m map[string]int</code> yozsangiz, <code>m[&quot;a&quot;] = 1</code> <strong>panic</strong> beradi. <code>make(map[string]int)</code> yoki <code>map[string]int{}</code> bilan yarating. O&#x27;qish va <code>len</code> esa <code>nil</code> map&#x27;da ishlaydi.</li><li><strong>Yo&#x27;q kalitni o&#x27;qish.</strong> Python&#x27;da <code>KeyError</code>, PHP&#x27;da ogohlantirish. <code>.get()</code>, <code>??</code> yoki oldin <code>in</code> bilan tekshiring.</li><li><strong>Go&#x27;da nol qiymat bilan adashish.</strong> <code>counts[&quot;x&quot;]</code> natijasi <code>0</code> bo&#x27;lsa, kalit yo&#x27;q yoki qiymat haqiqatan <code>0</code> ekanini <code>ok</code> orqali ajrating.</li><li><strong>PHP&#x27;da <code>isset</code> va <code>null</code>.</strong> Qiymat <code>null</code> bo&#x27;lsa, <code>isset</code> kalit bor bo&#x27;lsa ham <code>false</code> beradi. Kalit mavjudligi uchun <code>array_key_exists</code>.</li><li><strong>Aylanayotganda o&#x27;zgartirish.</strong> Python&#x27;da sikl ichida <code>dict</code> ga kalit qo&#x27;shsangiz yoki o&#x27;chirsangiz <code>RuntimeError</code> chiqadi. Kalitlar nusxasidan aylaning: <code>for k in list(d):</code>.</li><li><strong>Tartibga ishonish.</strong> Go&#x27;da <code>map</code> tartibi kafolatlanmagan. Natijani tartiblangan holda chiqarish kerak bo&#x27;lsa, kalitlarni <code>sort</code> qiling.</li><li><strong>O&#x27;zgaruvchan kalit.</strong> Python&#x27;da <code>list</code> ni kalit qilib bo&#x27;lmaydi, <code>tuple</code> ga o&#x27;giring.</li></ul>
+<h2 id="s16">Qachon hash map tanlanadi</h2>
+<p>Hash map yaxshi: kalit bo&#x27;yicha tez qidirish kerak, elementlarni sanash, takrorlanishni topish, &quot;bu oldin uchraganmi&quot; degan savolga javob berish, ma&#x27;lumotni guruhlash.</p>
+<p>Hash map yomon: elementlar <strong>tartiblangan</strong> bo&#x27;lishi kerak (u holda tartiblangan array yoki balanced tree), kichik-katta bo&#x27;yicha oraliq qidirish kerak, xotira juda tor (hash map array&#x27;dan ko&#x27;proq joy oladi), indeks bo&#x27;yicha ketma-ket murojaat yetarli (u holda oddiy <a href="array.html">Array</a>).</p></div><h2>Shu topicdagi masalalar</h2><div class="list"><a class="row" href="../problems/0001-two-sum.html"><span class="n">0001</span><span class="t">Two Sum</span><span></span><span class="badge Easy">Easy</span></a><a class="row" href="../problems/0013-roman-to-integer.html"><span class="n">0013</span><span class="t">Roman to Integer</span><span></span><span class="badge Easy">Easy</span></a></div></article><aside class="toc"><span class="label">Mundarija</span><a href="#s1">Hash Map nima</a><a href="#s2">Ichida qanday ishlaydi</a><a href="#s3">Kolliziya</a><a href="#s4">Load factor va kengayish</a><a href="#s5">Amallar va murakkablik</a><a href="#s6">Yaratish, qo&#x27;shish, yangilash</a><a href="#s7">Read: qiymatni o&#x27;qish</a><a href="#s8">Contains: kalit bormi</a><a href="#s9">Delete: o&#x27;chirish</a><a href="#s10">Aylanib chiqish va uzunlik</a><a href="#s11">Sanash (frequency count)</a><a href="#s12">Set: faqat kalitlar</a><a href="#s13">Kalit uchun talablar</a><a href="#s14">Tillar o&#x27;rtasidagi farqlar</a><a href="#s15">Ko&#x27;p uchraydigan xatolar</a><a href="#s16">Qachon hash map tanlanadi</a></aside></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Array — LeetNote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="../index.html"><span class="logo">&gt;_</span>leetnote</a>
+<nav class="nav" aria-label="Asosiy"><span class="nav-label">Bo'limlar</span>
+<a href="../index.html"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Masalalar</a>
+<a href="../topics.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Topiclar</a></nav>
+<div class="side-foot"><span>Python · PHP · Go</span>
+<button id="theme" class="icon-btn" type="button" aria-label="Mavzuni almashtirish"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</aside>
+<main class="content"><div class="inner">
+<div class="crumbs"><a href="../topics.html">Topiclar</a><i>/</i><span>Array</span></div><div class="doc"><article class="article"><span class="eyebrow">Topic</span><h1>Array</h1><p class="sub">Elementlar ketma-ket saqlanadigan eng oddiy ma&#x27;lumotlar tuzilmasi. Read, update, insert, delete amallari va ularning murakkabligi.</p><div class="prose"><h2 id="s1">Array nima</h2>
+<p>Array (massiv) bir xil turdagi elementlarni <strong>tartib bilan</strong> saqlaydi. Har bir elementning o&#x27;z <strong>indeksi</strong> bor. Indeks <code>0</code> dan boshlanadi: birinchi element <code>0</code>, ikkinchisi <code>1</code> va hokazo. Uzunligi <code>n</code> bo&#x27;lsa, oxirgi indeks <code>n - 1</code>.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>nums = [10, 20, 30, 40]
+#  indeks:  0   1   2   3</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$nums = [10, 20, 30, 40];
+//  indeks:  0   1   2   3</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>nums := []int{10, 20, 30, 40}
+//  indeks:  0   1   2   3</code></pre></div></section>
+<h2 id="s2">Xotirada qanday saqlanadi</h2>
+<p>Klassik arrayda elementlar xotirada <strong>yonma-yon</strong> turadi. Kompyuter <code>i</code>-elementning manzilini formula bilan topadi:</p>
+<p><code>manzil = boshlang&#x27;ich manzil + i × element hajmi</code></p>
+<p>Shu sababli indeks bo&#x27;yicha murojaat massiv qanchalik katta bo&#x27;lishidan qat&#x27;i nazar bir xil tezlikda, ya&#x27;ni <strong>O(1)</strong> da bajariladi. Narxi esa o&#x27;rtaga qo&#x27;shish va o&#x27;chirishda to&#x27;lanadi: elementlarni surish kerak bo&#x27;ladi.</p>
+<blockquote>Muhim: Python <code>list</code>, Go <code>slice</code> va PHP <code>array</code> aslida <strong>dinamik</strong> array. Ular o&#x27;zi kengayadi, lekin asosiy qoidalar (indeks bo&#x27;yicha O(1), o&#x27;rtada surish O(n)) o&#x27;sha-o&#x27;sha qoladi.</blockquote>
+<h2 id="s3">Amallar va murakkablik</h2>
+<div class="tbl"><table><thead><tr><th>Amal</th><th>Vaqt</th><th>Izoh</th></tr></thead><tbody><tr><td>Read (indeks bo&#x27;yicha o&#x27;qish)</td><td>O(1)</td><td>Formula bilan to&#x27;g&#x27;ridan-to&#x27;g&#x27;ri manzilga boriladi</td></tr><tr><td>Update (indeks bo&#x27;yicha yozish)</td><td>O(1)</td><td>Qiymat o&#x27;sha katakka yoziladi</td></tr><tr><td>Qidirish (tartiblanmagan)</td><td>O(n)</td><td>Eng yomon holda hammasini ko&#x27;rib chiqish kerak</td></tr><tr><td>Qidirish (tartiblangan, binary search)</td><td>O(log n)</td><td>Har qadamda qidiruv oralig&#x27;i yarmiga kamayadi</td></tr><tr><td>Insert, oxiriga</td><td>O(1)</td><td>Amortizatsiyalangan: ba&#x27;zan array kengayadi</td></tr><tr><td>Insert, boshiga yoki o&#x27;rtaga</td><td>O(n)</td><td>Keyingi elementlar bir katakka suriladi</td></tr><tr><td>Delete, oxiridan</td><td>O(1)</td><td>Faqat uzunlik kamayadi</td></tr><tr><td>Delete, boshidan yoki o&#x27;rtadan</td><td>O(n)</td><td>Bo&#x27;sh joyni yopish uchun elementlar suriladi</td></tr><tr><td>Butun arrayni aylanib chiqish</td><td>O(n)</td><td>Har element bir marta ko&#x27;riladi</td></tr><tr><td>Xotira</td><td>O(n)</td><td><code>n</code> ta element uchun</td></tr></tbody></table></div>
+<h2 id="s4">Read: elementni o&#x27;qish</h2>
+<p>Indeks bo&#x27;yicha o&#x27;qish har doim <strong>O(1)</strong>. Indeks <code>0 .. n-1</code> oralig&#x27;idan tashqarida bo&#x27;lsa, xato chiqadi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>nums = [10, 20, 30, 40]
+
+print(nums[0])     # 10, birinchi
+print(nums[2])     # 30
+print(nums[-1])    # 40, oxirgi (Python&#x27;da manfiy indeks ruxsat etiladi)
+print(len(nums))   # 4, uzunlik</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$nums = [10, 20, 30, 40];
+
+echo $nums[0];                  // 10, birinchi
+echo $nums[2];                  // 30
+echo $nums[count($nums) - 1];   // 40, oxirgi (PHP&#x27;da manfiy indeks yo&#x27;q)
+echo count($nums);              // 4, uzunlik</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>nums := []int{10, 20, 30, 40}
+
+fmt.Println(nums[0])            // 10, birinchi
+fmt.Println(nums[2])            // 30
+fmt.Println(nums[len(nums)-1])  // 40, oxirgi (Go&#x27;da manfiy indeks yo&#x27;q)
+fmt.Println(len(nums))          // 4, uzunlik</code></pre></div></section>
+<h2 id="s5">Update: elementni o&#x27;zgartirish</h2>
+<p>Mavjud katakka yangi qiymat yozish ham <strong>O(1)</strong>: boshqa elementlarga tegilmaydi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>nums = [10, 20, 30, 40]
+nums[1] = 25
+print(nums)   # [10, 25, 30, 40]</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$nums = [10, 20, 30, 40];
+$nums[1] = 25;
+print_r($nums);   // [10, 25, 30, 40]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>nums := []int{10, 20, 30, 40}
+nums[1] = 25
+fmt.Println(nums)   // [10 25 30 40]</code></pre></div></section>
+<h2 id="s6">Insert: element qo&#x27;shish</h2>
+<p><strong>Oxiriga</strong> qo&#x27;shish odatda <strong>O(1)</strong>. Dinamik array to&#x27;lib qolsa, o&#x27;zidan taxminan 2 baravar katta yangi joy ajratadi va hammasini ko&#x27;chiradi (bu <strong>O(n)</strong>). Lekin bu kamdan-kam bo&#x27;lgani uchun o&#x27;rtacha narx O(1) bo&#x27;ladi. Buni *amortizatsiyalangan O(1)* deyiladi.</p>
+<p><strong>Boshiga yoki o&#x27;rtaga</strong> qo&#x27;shishda undan keyingi hamma elementlar bir katakka suriladi, shuning uchun <strong>O(n)</strong>.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>nums = [10, 20, 30]
+
+nums.append(40)       # oxiriga, O(1)
+nums.insert(1, 15)    # 1-indeksga, O(n)
+print(nums)           # [10, 15, 20, 30, 40]</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$nums = [10, 20, 30];
+
+$nums[] = 40;                      // oxiriga, O(1)
+array_splice($nums, 1, 0, [15]);   // 1-indeksga, O(n)
+print_r($nums);                    // [10, 15, 20, 30, 40]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>nums := []int{10, 20, 30}
+
+nums = append(nums, 40)         // oxiriga, O(1)
+nums = slices.Insert(nums, 1, 15) // 1-indeksga, O(n), Go 1.21+, &quot;slices&quot; paketi
+fmt.Println(nums)               // [10 15 20 30 40]</code></pre></div></section>
+<h2 id="s7">Delete: element o&#x27;chirish</h2>
+<p><strong>Oxiridan</strong> o&#x27;chirish <strong>O(1)</strong>. <strong>Boshidan yoki o&#x27;rtadan</strong> o&#x27;chirsangiz, bo&#x27;sh qolgan joyni yopish uchun keyingi elementlar chapga suriladi, ya&#x27;ni <strong>O(n)</strong>.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>nums = [10, 20, 30, 40]
+
+nums.pop()        # oxiridan, O(1) -&gt; 40
+nums.pop(1)       # 1-indeksdan, O(n) -&gt; 20
+print(nums)       # [10, 30]</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$nums = [10, 20, 30, 40];
+
+array_pop($nums);              // oxiridan, O(1)
+array_splice($nums, 1, 1);     // 1-indeksdan, O(n), indekslar qayta tartiblanadi
+print_r($nums);                // [10, 30]</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>nums := []int{10, 20, 30, 40}
+
+nums = nums[:len(nums)-1]        // oxiridan, O(1)
+nums = slices.Delete(nums, 1, 2) // [1, 2) oralig&#x27;ini, O(n)
+fmt.Println(nums)                // [10 30]</code></pre></div></section>
+<blockquote>PHP&#x27;da <code>unset($nums[1])</code> elementni o&#x27;chiradi, lekin indekslarni <strong>qayta tartiblamaydi</strong>: <code>[0, 2, 3]</code> kabi &quot;teshik&quot; qoladi. Tartibli massiv kerak bo&#x27;lsa <code>array_splice</code> yoki <code>array_values</code> ishlating.</blockquote>
+<h2 id="s8">Qidirish va aylanib chiqish</h2>
+<p>Tartiblanmagan arrayda elementni topish uchun boshidan boshlab ko&#x27;rib chiqiladi: <strong>O(n)</strong>. Massiv tartiblangan bo&#x27;lsa, binary search bilan <strong>O(log n)</strong> da topiladi.</p>
+<section class="editor ctabs" data-tabs><div class="ed-bar" role="tablist"><button type="button" role="tab" data-lang="python" aria-selected="false">Python</button><button type="button" role="tab" data-lang="php" aria-selected="false">PHP</button><button type="button" role="tab" data-lang="go" aria-selected="false">Go</button><button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Nusxalash</span></button></div><div class="panel" data-lang="python" hidden><pre><code>nums = [10, 20, 30, 40]
+
+print(30 in nums)          # True, mavjudmi
+print(nums.index(30))      # 2, indeksi (topilmasa ValueError)
+
+for i, x in enumerate(nums):   # indeks va qiymat bilan
+    print(i, x)</code></pre></div><div class="panel" data-lang="php" hidden><pre><code>$nums = [10, 20, 30, 40];
+
+var_dump(in_array(30, $nums));      // true, mavjudmi
+var_dump(array_search(30, $nums));  // int(2), indeksi (topilmasa false)
+
+foreach ($nums as $i =&gt; $x) {       // indeks va qiymat bilan
+    echo &quot;$i $x\n&quot;;
+}</code></pre></div><div class="panel" data-lang="go" hidden><pre><code>nums := []int{10, 20, 30, 40}
+
+fmt.Println(slices.Contains(nums, 30)) // true, mavjudmi
+fmt.Println(slices.Index(nums, 30))    // 2, indeksi (topilmasa -1)
+
+for i, x := range nums {               // indeks va qiymat bilan
+	fmt.Println(i, x)
+}</code></pre></div></section>
+<h2 id="s9">Tillar o&#x27;rtasidagi farqlar</h2>
+<div class="tbl"><table><thead><tr><th></th><th>Python</th><th>PHP</th><th>Go</th></tr></thead><tbody><tr><td>Turi</td><td><code>list</code></td><td><code>array</code></td><td><code>slice</code> (<code>[]T</code>), qat&#x27;iy uzunlikdagi <code>[n]T</code> array ham bor</td></tr><tr><td>Elementlar turi</td><td>Aralash bo&#x27;lishi mumkin</td><td>Aralash bo&#x27;lishi mumkin</td><td>Hammasi bir xil tur</td></tr><tr><td>Manfiy indeks</td><td><code>nums[-1]</code> ishlaydi</td><td>Yo&#x27;q</td><td>Yo&#x27;q (panic)</td></tr><tr><td>Chegaradan chiqish</td><td><code>IndexError</code></td><td>Ogohlantirish va <code>null</code></td><td><code>panic</code></td></tr><tr><td>Nusxalash</td><td><code>b = a</code> bitta obyektga ishora</td><td><code>$b = $a</code> nusxa oladi</td><td>Slice&#x27;lar bir xotirani bo&#x27;lishishi mumkin</td></tr><tr><td>Ichki tuzilma</td><td>Dinamik array</td><td>Tartiblangan hash map</td><td>Dinamik array ustidagi ko&#x27;rinish</td></tr></tbody></table></div>
+<h2 id="s10">Ko&#x27;p uchraydigan xatolar</h2>
+<ul><li><strong>Off-by-one:</strong> oxirgi indeks <code>n - 1</code>, <code>n</code> emas. Siklda <code>i &lt; n</code> yozing, <code>i &lt;= n</code> emas.</li><li><strong>Bo&#x27;sh array:</strong> <code>nums[0]</code> yoki <code>nums[-1]</code> ga murojaatdan oldin <code>len(nums) &gt; 0</code> ni tekshiring.</li><li><strong>Aylanayotganda o&#x27;zgartirish:</strong> arrayni sikl ichida o&#x27;chirish yoki qo&#x27;shish elementlarni o&#x27;tkazib yuboradi. Yangi array yarating yoki oxiridan boshlab aylaning.</li><li><strong>Nusxa va ishora:</strong> Python&#x27;da <code>b = a</code> yangi array yaratmaydi, ikkalasi bitta list. Nusxa uchun <code>b = a[:]</code> yoki <code>a.copy()</code>. Go&#x27;da <code>b := a</code> ham bir xil xotiraga ishora qiladi, nusxa uchun <code>slices.Clone(a)</code>.</li><li><strong>O&#x27;rtadan o&#x27;chirish sikl ichida:</strong> har bir <code>pop(i)</code> O(n), umumiy narx O(n²) bo&#x27;lib ketadi.</li></ul>
+<h2 id="s11">Qachon array tanlanadi</h2>
+<p>Array yaxshi: indeks bo&#x27;yicha tez murojaat kerak, elementlar tartibli, asosan oxiriga qo&#x27;shiladi, xotira zich va tez ishlaydi.</p>
+<p>Array yomon: boshiga yoki o&#x27;rtaga tez-tez qo&#x27;shish va o&#x27;chirish kerak (u holda linked list, deque), kalit bo&#x27;yicha qidirish kerak (u holda <a href="hash-map.html">Hash Map</a>).</p></div><h2>Shu topicdagi masalalar</h2><div class="list"><a class="row" href="../problems/0001-two-sum.html"><span class="n">0001</span><span class="t">Two Sum</span><span></span><span class="badge Easy">Easy</span></a><a class="row" href="../problems/0014-longest-common-prefix.html"><span class="n">0014</span><span class="t">Longest Common Prefix</span><span></span><span class="badge Easy">Easy</span></a></div></article><aside class="toc"><span class="label">Mundarija</span><a href="#s1">Array nima</a><a href="#s2">Xotirada qanday saqlanadi</a><a href="#s3">Amallar va murakkablik</a><a href="#s4">Read: elementni o&#x27;qish</a><a href="#s5">Update: elementni o&#x27;zgartirish</a><a href="#s6">Insert: element qo&#x27;shish</a><a href="#s7">Delete: element o&#x27;chirish</a><a href="#s8">Qidirish va aylanib chiqish</a><a href="#s9">Tillar o&#x27;rtasidagi farqlar</a><a href="#s10">Ko&#x27;p uchraydigan xatolar</a><a href="#s11">Qachon array tanlanadi</a></aside></div>
+</div></main>
+</div>
+<script src="../app.js"></script>
+</body></html>
